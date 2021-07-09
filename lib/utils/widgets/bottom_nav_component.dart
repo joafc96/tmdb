@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../view_models/theme_view_model.dart';
+import '../constants.dart';
 
 class BottomNavComponent extends StatelessWidget {
   final int currentIndex;
@@ -32,7 +33,7 @@ class BottomNavComponent extends StatelessWidget {
           sigmaY: 5.0,
         ),
         child: Container(
-          height: 60,
+          height: AppConstants.kSpacingUnit * 6.0,
           decoration: BoxDecoration(
             color: Provider.of<ThemeViewModel>(context, listen: true)
                 .curTheme
@@ -47,10 +48,11 @@ class BottomNavComponent extends StatelessWidget {
                     .primary,
               ),
               const SizedBox(
-                height: 8,
+                height: AppConstants.kSpacingUnit * 0.8,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.kSpacingUnit * 2.5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -64,21 +66,19 @@ class BottomNavComponent extends StatelessWidget {
                                 onChange(index);
                               },
                               padding: const EdgeInsets.all(0),
-                              child: SizedBox(
-                                width: 28,
-                                height: 29,
-                                child: SvgPicture.asset(
-                                  value[0],
-                                  color: currentIndex == index
-                                      ? Provider.of<ThemeViewModel>(context,
-                                              listen: true)
-                                          .curTheme
-                                          .primary
-                                      : Provider.of<ThemeViewModel>(context,
-                                              listen: true)
-                                          .curTheme
-                                          .text,
-                                ),
+                              child: SvgPicture.asset(
+                                value[0],
+                                width: AppConstants.kSpacingUnit * 3.0,
+                                height: AppConstants.kSpacingUnit * 3.0,
+                                color: currentIndex == index
+                                    ? Provider.of<ThemeViewModel>(context,
+                                            listen: true)
+                                        .curTheme
+                                        .primary
+                                    : Provider.of<ThemeViewModel>(context,
+                                            listen: true)
+                                        .curTheme
+                                        .text,
                               ),
                             ),
                           ),

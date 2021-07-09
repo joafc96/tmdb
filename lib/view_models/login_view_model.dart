@@ -129,6 +129,8 @@ class LoginViewModel extends BaseModel {
         FirsebaseUserModel _firebaseUser =
             await _fireBaseAuthRepo.getUserDetails(_user);
         MemoryManagement.saveUserDetails(_firebaseUser);
+        Provider.of<LoginInfoViewModel>(context, listen: false)
+            .signIn(_firebaseUser);
 
         setState(ViewState.loaded);
 

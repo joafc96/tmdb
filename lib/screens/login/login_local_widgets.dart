@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../utils/constants.dart';
 import '../../utils/assets_helper.dart';
 import '../../utils/enums.dart';
 import '../../view_models/login_view_model.dart';
@@ -50,7 +51,7 @@ class EmailTextFormField extends StatelessWidget {
           alignLabelWithHint: false,
           isDense: true,
           contentPadding:
-              const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              const EdgeInsets.symmetric(vertical: AppConstants.kSpacingUnit * 1.5, horizontal: AppConstants.kSpacingUnit * 1.5),
         ),
         cursorColor: context.watch<ThemeViewModel>().curTheme.primary,
       ),
@@ -100,7 +101,7 @@ class PasswordTextFormField extends StatelessWidget {
           alignLabelWithHint: false,
           isDense: true,
           contentPadding:
-              const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              const EdgeInsets.symmetric(vertical: AppConstants.kSpacingUnit * 1.5, horizontal: AppConstants.kSpacingUnit * 1.5),
         ),
         cursorColor: context.watch<ThemeViewModel>().curTheme.primary,
       ),
@@ -116,17 +117,17 @@ class AppThemedElevatedButton extends StatelessWidget {
     Key key,
     @required this.onPressed,
     @required this.child,
-  })  : assert(child == Widget),
+  })  : assert(child != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40,
+      height: AppConstants.kSpacingUnit * 4.0,
       width: double.maxFinite,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              padding: const EdgeInsets.symmetric(vertical: AppConstants.kSpacingUnit * 1.0),
               primary: context.watch<ThemeViewModel>().curTheme.primary),
           onPressed: onPressed,
           child: child),
@@ -187,7 +188,7 @@ class OrDivider extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: Container(
-            margin: const EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: AppConstants.kSpacingUnit * 1.0),
             height: 1,
             color: context.watch<ThemeViewModel>().curTheme.primary,
           ),
@@ -198,7 +199,7 @@ class OrDivider extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            margin: const EdgeInsets.only(left: 10),
+            margin: const EdgeInsets.only(left: AppConstants.kSpacingUnit * 1.0),
             height: 1,
             color: context.watch<ThemeViewModel>().curTheme.primary,
           ),
@@ -226,8 +227,8 @@ class ContinueWithGoogleButton extends StatelessWidget {
             ImageAssets.google,
             color: Provider.of<ThemeViewModel>(context).curTheme.background,
           ),
-          SizedBox(
-            width: 10,
+         const  SizedBox(
+            width: AppConstants.kSpacingUnit * 1.0,
           ),
           Text(
             "CONTINUE WITH GOOGLE",

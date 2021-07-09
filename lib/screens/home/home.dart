@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../../utils/assets_helper.dart';
 import '../../utils/enums.dart';
 import '../../utils/widgets/catergory_name.dart';
-import '../../utils/widgets/scrollable_display_movie.dart';
-import '../../utils/widgets/scrollable_display_tvShow.dart';
+import 'scrollable_display_movie.dart';
+import 'scrollable_display_tvShow.dart';
 import '../../view_models/bottom_nav_view_model.dart';
 import '../../view_models/home_view_model.dart';
 import '../../view_models/login_info_model.dart';
@@ -68,18 +68,7 @@ class _HomeState extends State<Home>
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-              icon: Icon(Icons.logout,
-                  color: Provider.of<ThemeViewModel>(context).curTheme.primary),
-              onPressed: () async {
-                await Provider.of<LoginInfoViewModel>(context, listen: false)
-                    .signOut();
-                await context
-                    .read<BottomNavigationViewModel>()
-                    .navigateToAndClear("/login");
-              })
-        ],
+    
       ),
       body: ChangeNotifierProvider(
         create: (_) => HomeViewModel(context: context),

@@ -7,6 +7,8 @@ import 'package:tmdb/utils/assets_helper.dart';
 import 'package:tmdb/utils/enums.dart';
 import 'package:tmdb/view_models/theme_view_model.dart';
 
+import '../constants.dart';
+
 Map<homeCategories, String> homeCategoryName = {
   homeCategories.trendingMovies: "Trending",
   homeCategories.trendingTvShows: "Trending",
@@ -31,48 +33,44 @@ class CategoryName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.only(left: 12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 4,
-              height: 20,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.0),
-                  color: Provider.of<ThemeViewModel>(context).curTheme.primary
-              ),
-            ),
-            const SizedBox(width: 6.0,),
-
-            Text(
-              homeCategoryName[homeCategory],
-              style: AppStyles.textStyleHeader(context),
-            ),
-            const SizedBox(width: 6.0,),
-
-            Text(
-              isMovie ? "MOVIES" : "TV SHOWS",
-              style: AppStyles.textStyleCategorySubTitle(context),
-            ),
-
-
-            const Spacer(),
-            CupertinoButton(
-              padding: const EdgeInsets.all(0),
-              onPressed: () {
-                // _navigateToSeeAllMovies(context, category, moviesList);
-              },
-              child: SizedBox(
-                height: 35,
-                width: 35,
-                child: SvgPicture.asset(ImageAssets.chevron_right, color: Provider.of<ThemeViewModel>(context).curTheme.text),
-
-              )
-            )
-          ],
-        ),
-
+      padding: const EdgeInsets.only(left: AppConstants.kSpacingUnit * 1.2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: AppConstants.kSpacingUnit * 0.4,
+            height: AppConstants.kSpacingUnit * 2.0,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
+                color: Provider.of<ThemeViewModel>(context).curTheme.primary),
+          ),
+          const SizedBox(
+            width: AppConstants.kSpacingUnit * 0.6,
+          ),
+          Text(
+            homeCategoryName[homeCategory],
+            style: AppStyles.textStyleHeader(context),
+          ),
+          const SizedBox(
+            width: AppConstants.kSpacingUnit * 0.6,
+          ),
+          Text(
+            isMovie ? "MOVIES" : "TV SHOWS",
+            style: AppStyles.textStyleCategorySubTitle(context),
+          ),
+          const Spacer(),
+          CupertinoButton(
+            padding: const EdgeInsets.all(0),
+            onPressed: () {
+              // _navigateToSeeAllMovies(context, category, moviesList);
+            },
+            child: SvgPicture.asset(ImageAssets.chevron_right,
+                width: AppConstants.kSpacingUnit * 3.5,
+                height: AppConstants.kSpacingUnit * 3.5,
+                color: Provider.of<ThemeViewModel>(context).curTheme.text),
+          )
+        ],
+      ),
     );
   }
 }

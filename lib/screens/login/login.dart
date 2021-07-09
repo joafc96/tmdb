@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import '../../utils/constants.dart';
 import '../../screens/login/login_local_widgets.dart';
 import '../../utils/assets_helper.dart';
 import '../../utils/enums.dart';
-import '../../styles.dart';
 import '../../view_models/login_view_model.dart';
 
 // Project imports:
@@ -64,7 +64,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         resizeToAvoidBottomInset: false,
         body: Container(
           margin: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top, left: 20, right: 20),
+              top: MediaQuery.of(context).padding.top, left: AppConstants.kSpacingUnit * 2.0, right: AppConstants.kSpacingUnit * 2.0),
           width: double.maxFinite,
           height: double.maxFinite,
           child: Form(
@@ -74,7 +74,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                 children: <Widget>[
                   Visibility(
                       replacement: const SizedBox(
-                        height: 4,
+                        height: AppConstants.kSpacingUnit * 0.4,
                       ),
                       visible: context.watch<LoginViewModel>().state ==
                           ViewState.loading,
@@ -88,8 +88,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   FadeTransition(
                     opacity: _opacityAnim,
                     child: SizedBox(
-                      width: 100,
-                      height: 100,
+                      width: AppConstants.kSpacingUnit * 10.0,
+                      height: AppConstants.kSpacingUnit * 10.0,
                       child: SvgPicture.asset(
                         ImageAssets.appLogo,
                         color: Provider.of<ThemeViewModel>(context)
@@ -99,17 +99,17 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: AppConstants.kSpacingUnit * 3.0,
                   ),
                   //email widget
                   const EmailTextFormField(),
                   const SizedBox(
-                    height: 20,
+                    height: AppConstants.kSpacingUnit * 2.0,
                   ),
                   //password widget
                   const PasswordTextFormField(),
                   const SizedBox(
-                    height: 20,
+                    height: AppConstants.kSpacingUnit * 2.0,
                   ),
                   //login widget
                   const LoginButton(),
@@ -119,17 +119,17 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   // register widget
                   const RegisterButton(),
                   const SizedBox(
-                    height: 20,
+                    height: AppConstants.kSpacingUnit * 2.0,
                   ),
                   // or widget
                   const OrDivider(),
                   const SizedBox(
-                    height: 20,
+                    height: AppConstants.kSpacingUnit * 2.0,
                   ),
                   // continue widget
                   const ContinueWithGoogleButton(),
                   const SizedBox(
-                    height: 20,
+                    height: AppConstants.kSpacingUnit * 2.0,
                   ),
                 ],
               ),

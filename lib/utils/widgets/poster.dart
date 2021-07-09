@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import '../../utils/reusable_widgets.dart';
+import '../constants.dart';
 
 class Poster extends StatelessWidget {
   final String imageUrl;
@@ -12,7 +13,7 @@ class Poster extends StatelessWidget {
     return Hero(
       tag: heroTag,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(6.0),
+        borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
         child: getCachedNetworkImage(url: imageUrl, fit: BoxFit.fill),
       ),
     );

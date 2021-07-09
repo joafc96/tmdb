@@ -8,14 +8,9 @@ import '../../view_models/bottom_nav_view_model.dart';
 
 import '../../utils/widgets/bottom_nav_component.dart';
 
-enum tabItem { movies, tvShows, celebs, search, account }
 
-class NestedNavigation extends StatefulWidget {
-  @override
-  _NestedNavigationState createState() => _NestedNavigationState();
-}
+class NestedNavigation extends StatelessWidget {
 
-class _NestedNavigationState extends State<NestedNavigation> {
   final _pages = [
     Home(),
     const Scaffold(),

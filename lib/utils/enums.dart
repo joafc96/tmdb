@@ -17,7 +17,7 @@ enum exceptionPrefix {
   googleSignInCancelled
 }
 
-enum tabItem { movies, tvShows, celebs, search, account }
+enum tabItem { home, search, celebs, account }
 
 enum MoviesCategories {
   popular,

@@ -1,79 +1,83 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tmdb/view_models/theme_view_model.dart';
-import '../../models/movies/movie_data.dart';
-import '../../models/movies/movie_list.dart';
+
+
+import '../../models/tv_shows/tv_shows_data.dart';
+import '../../models/tv_shows/tv_shows_list.dart';
 import '../../utils/enums.dart';
 import '../../utils/urls.dart';
 import '../../utils/widgets/poster.dart';
+import '../../view_models/theme_view_model.dart';
 
 import '../../styles.dart';
-import '../tmdb_configs.dart';
+import '../../utils/constants.dart';
+import '../../utils/tmdb_configs.dart';
 
-class ScrollableMovie extends StatelessWidget {
-  final MoviesList moviesList;
+class ScrollableTvShow extends StatelessWidget {
+  final TvShowsList tvShowsList;
   final homeCategories homeCategory;
   final bool isLoading;
 
-  const ScrollableMovie(
-      {Key key, this.homeCategory, this.moviesList, this.isLoading = false})
+  const ScrollableTvShow(
+      {Key key,
+      @required this.homeCategory,
+      this.tvShowsList,
+      this.isLoading = false})
       : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {
-    List<MoviesData> movies = !isLoading ? moviesList.movies : [];
+    List<TvShowsData> tvShows =
+        !isLoading ? tvShowsList.tvShows : [];
 
     String imageUrl = URLS.imageBaseUrl;
 
     imageUrl = imageUrl + PosterSizes.w500;
 
-    return Container(
-      height: 180,
+    return SizedBox(
+      height: AppConstants.kSpacingUnit * 18.0,
       child: ListView.separated(
         physics: const AlwaysScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: !isLoading
-            ? movies.length < 20
-                ? movies.length
+            ? tvShows.length < 20
+                ? tvShows.length
                 : 20
             : 5,
-        padding: const EdgeInsets.only(left: 12, right: 12),
+        padding: const EdgeInsets.only(left: AppConstants.kSpacingUnit * 1.2, right: AppConstants.kSpacingUnit * 1.2),
         separatorBuilder: (BuildContext context, int index) {
-          return Container(
-            width: 12,
+          return const SizedBox(
+            width: AppConstants.kSpacingUnit * 1.2,
           );
         },
         itemBuilder: (BuildContext context, int index) {
           return !isLoading
               ? RepaintBoundary(
                 child: SizedBox(
-                  width: 90,
+                  width: AppConstants.kSpacingUnit * 9.0,
                   child: Column(
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {},
                         child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.0),
-                            color: Provider.of<ThemeViewModel>(context).curTheme.backgroundLight,
-
-                          ),
-                            height: 130,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
+                              color: Provider.of<ThemeViewModel>(context).curTheme.backgroundLight,
+                            ),
+                            height: AppConstants.kSpacingUnit * 13.0,
                             child: Poster(
-                              imageUrl: imageUrl + movies[index].posterPath,
+                              imageUrl: imageUrl + tvShows[index].posterPath,
                               heroTag:
-                                  '${movies[index].id}${homeCategory}',
+                                  '${tvShows[index].id}${homeCategory}',
                             )),
                       ),
-                      const SizedBox(height: 8.0,),
+                      const SizedBox(height: AppConstants.kSpacingUnit * 0.8),
                       SizedBox(
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            movies[index].title,
+                            tvShows[index].name,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
@@ -87,31 +91,31 @@ class ScrollableMovie extends StatelessWidget {
                 ),
               )
               : SizedBox(
-                  width: 90,
+                  width: AppConstants.kSpacingUnit * 9.0,
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: 130,
-                        width: 90,
+                        height: AppConstants.kSpacingUnit * 13.0,
+                        width: AppConstants.kSpacingUnit * 9.0,
                         decoration: BoxDecoration(
                           color: Provider.of<ThemeViewModel>(context)
                               .curTheme
                               .backgroundLight,
-                          borderRadius: BorderRadius.circular(6.0),
+                          borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
+                        padding: const EdgeInsets.only(top: AppConstants.kSpacingUnit * 0.8),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
-                            width: 75,
-                            height: 15,
+                            width: AppConstants.kSpacingUnit * 7.5,
+                            height: AppConstants.kSpacingUnit * 1.5,
                             decoration: BoxDecoration(
                               color: Provider.of<ThemeViewModel>(context)
                                   .curTheme
                                   .backgroundLight,
-                              borderRadius: BorderRadius.circular(3.0),
+                              borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.3),
                             ),
                           ),
                         ),
