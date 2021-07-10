@@ -29,9 +29,10 @@ Map<homeCategories, String> homeCategoryName = {
 class CategoryName extends StatelessWidget {
   final homeCategories homeCategory;
   final bool isMovie;
+  final VoidCallback onPressed;
 
   const CategoryName(
-      {Key key, @required this.homeCategory, this.isMovie = false})
+      {Key key, @required this.homeCategory, this.isMovie = false, this.onPressed})
       : super(key: key);
 
   @override
@@ -45,7 +46,8 @@ class CategoryName extends StatelessWidget {
             width: AppConstants.kSpacingUnit * 0.4,
             height: AppConstants.kSpacingUnit * 2.0,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
+                borderRadius:
+                    BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
                 color: Provider.of<ThemeViewModel>(context).curTheme.primary),
           ),
           const SizedBox(
@@ -65,9 +67,7 @@ class CategoryName extends StatelessWidget {
           const Spacer(),
           CupertinoButton(
             padding: const EdgeInsets.all(0),
-            onPressed: () {
-              // _navigateToSeeAllMovies(context, category, moviesList);
-            },
+            onPressed: onPressed,
             child: SvgPicture.asset(ImageAssets.chevron_right,
                 width: AppConstants.kSpacingUnit * 3.5,
                 height: AppConstants.kSpacingUnit * 3.5,

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tmdb/models/tv_shows/tv_shows_list.dart';
+import 'package:tmdb/view_models/bottom_nav_view_model.dart';
 
 // Project imports:
 import '../../utils/assets_helper.dart';
@@ -11,7 +13,6 @@ import '../../utils/enums.dart';
 import '../../utils/widgets/catergory_name.dart';
 import '../../view_models/home_view_model.dart';
 import '../../view_models/theme_view_model.dart';
-import 'scrollable_display_movie.dart';
 import 'scrollable_display_tvShow.dart';
 
 Map<MoviesCategories, String> movieCategoryName = {
@@ -47,10 +48,23 @@ class _HomeState extends State<Home>
     with
         SingleTickerProviderStateMixin<Home>,
         AutomaticKeepAliveClientMixin<Home> {
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    // methods
+    _navigateToSeeAllTvShows(
+        {String route,
+        TvShowsCategories tvShowsCategory,
+        TvShowsList tvShowsList,
+        int tvShowId = null}) {
+      Provider.of<BottomNavigationViewModel>(context, listen: false)
+          .navigateTo(route, arguments: {
+        "tv_show_category": tvShowsCategory,
+        "tv_shows_list": tvShowsList,
+        "tv_show_id": tvShowId
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +78,6 @@ class _HomeState extends State<Home>
           ),
         ),
         centerTitle: true,
-    
       ),
       body: ChangeNotifierProvider(
         create: (_) => HomeViewModel(context: context),
@@ -72,61 +85,58 @@ class _HomeState extends State<Home>
           child: Column(
             children: [
               // trending movies
-              Container(
-                height: 230,
-                child: Column(
-                  children: [
-                    CategoryName(
-                      homeCategory: homeCategories.trendingMovies,
-                      isMovie: true,
-                    ),
-                    Builder(builder: (context) {
-                      final _homeModel = Provider.of<HomeViewModel>(context);
+              // Container(
+              //   height: 230,
+              //   child: Column(
+              //     children: [
+              //       CategoryName(
+              //         homeCategory: homeCategories.trendingMovies,
+              //         isMovie: true,
+              //       ),
+              //       Builder(builder: (context) {
+              //         final _homeModel = Provider.of<HomeViewModel>(context);
 
-                      switch (_homeModel.movieState) {
-                        case ViewState.initial:
-                          // TODO: Handle this case.
-                          break;
-                        case ViewState.loading:
-                          return ScrollableMovie(
-                            homeCategory: homeCategories.trendingMovies,
-                            isLoading: true,
-                          );
-                          break;
-                        case ViewState.loaded:
-                          return ScrollableMovie(
-                            homeCategory: homeCategories.trendingMovies,
-                            moviesList: _homeModel.movies[0],
-                          );
-                          break;
-                        case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
-                          break;
-                      }
-                      return ScrollableMovie(
-                        homeCategory: homeCategories.trendingMovies,
-                        isLoading: true,
-                      );
-                    })
-                  ],
-                ),
-              ),
+              //         switch (_homeModel.movieState) {
+              //           case ViewState.initial:
+              //             // TODO: Handle this case.
+              //             break;
+              //           case ViewState.loading:
+              //             return ScrollableMovie(
+              //               homeCategory: homeCategories.trendingMovies,
+              //               isLoading: true,
+              //             );
+              //             break;
+              //           case ViewState.loaded:
+              //             return ScrollableMovie(
+              //               homeCategory: homeCategories.trendingMovies,
+              //               moviesList: _homeModel.movies[0],
+              //             );
+              //             break;
+              //           case ViewState.error:
+              //             return Center(
+              //                 child: CircularProgressIndicator(
+              //               strokeWidth: 1.0,
+              //               backgroundColor: context
+              //                   .watch<ThemeViewModel>()
+              //                   .curTheme
+              //                   .primary,
+              //             ));
+              //             break;
+              //         }
+              //         return ScrollableMovie(
+              //           homeCategory: homeCategories.trendingMovies,
+              //           isLoading: true,
+              //         );
+              //       })
+              //     ],
+              //   ),
+              // ),
 
               // trending tv shows
               Container(
                 height: 230,
                 child: Column(
                   children: [
-                    CategoryName(
-                      homeCategory: homeCategories.trendingTvShows,
-                    ),
                     Builder(builder: (context) {
                       final _homeModel = Provider.of<HomeViewModel>(context);
 
@@ -135,27 +145,53 @@ class _HomeState extends State<Home>
                           // TODO: Handle this case.
                           break;
                         case ViewState.loading:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.trendingTvShows,
-                            isLoading: true,
+                          return Column(
+                            children: [
+                              CategoryName(
+                                  homeCategory: homeCategories.trendingTvShows,
+                                  onPressed: null),
+                              ScrollableTvShow(
+                                homeCategory: homeCategories.trendingTvShows,
+                                isLoading: true,
+                              ),
+                            ],
                           );
-
                           break;
                         case ViewState.loaded:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.trendingTvShows,
-                            tvShowsList: _homeModel.tvShows[0],
+                          return Column(
+                            children: [
+                              CategoryName(
+                                  homeCategory: homeCategories.trendingTvShows,
+                                  onPressed: () {
+                                    _navigateToSeeAllTvShows(
+                                        route: '/seeAllTvShows',
+                                        tvShowsCategory:
+                                            TvShowsCategories.trending,
+                                        tvShowsList: _homeModel.tvShows[0]);
+                                  }),
+                              ScrollableTvShow(
+                                homeCategory: homeCategories.trendingTvShows,
+                                tvShowsList: _homeModel.tvShows[0],
+                              ),
+                            ],
                           );
                           break;
                         case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
+                          return Column(
+                            children: [
+                              CategoryName(
+                                  homeCategory: homeCategories.trendingTvShows,
+                                  onPressed: null),
+                              Center(
+                                  child: CircularProgressIndicator(
+                                strokeWidth: 1.0,
+                                backgroundColor: context
+                                    .watch<ThemeViewModel>()
+                                    .curTheme
+                                    .primary,
+                              )),
+                            ],
+                          );
                           break;
                       }
                       return ScrollableTvShow(
@@ -167,341 +203,341 @@ class _HomeState extends State<Home>
                 ),
               ),
 
-              // upcoming movies
-              Container(
-                height: 230,
-                child: Column(
-                  children: [
-                    CategoryName(
-                      homeCategory: homeCategories.upcomingMovies,
-                      isMovie: true,
-                    ),
-                    Builder(builder: (context) {
-                      final _homeModel = Provider.of<HomeViewModel>(context);
+              // // upcoming movies
+              // Container(
+              //   height: 230,
+              //   child: Column(
+              //     children: [
+              //       CategoryName(
+              //         homeCategory: homeCategories.upcomingMovies,
+              //         isMovie: true,
+              //       ),
+              //       Builder(builder: (context) {
+              //         final _homeModel = Provider.of<HomeViewModel>(context);
 
-                      switch (_homeModel.movieState) {
-                        case ViewState.initial:
-                          // TODO: Handle this case.
-                          break;
-                        case ViewState.loading:
-                          return ScrollableMovie(
-                            homeCategory: homeCategories.upcomingMovies,
-                            isLoading: true,
-                          );
-                          break;
-                        case ViewState.loaded:
-                          return ScrollableMovie(
-                            homeCategory: homeCategories.upcomingMovies,
-                            moviesList: _homeModel.movies[1],
-                          );
-                          break;
-                        case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
-                          break;
-                      }
-                      return ScrollableMovie(
-                        homeCategory: homeCategories.trendingMovies,
-                        isLoading: true,
-                      );
-                    })
-                  ],
-                ),
-              ),
+              //         switch (_homeModel.movieState) {
+              //           case ViewState.initial:
+              //             // TODO: Handle this case.
+              //             break;
+              //           case ViewState.loading:
+              //             return ScrollableMovie(
+              //               homeCategory: homeCategories.upcomingMovies,
+              //               isLoading: true,
+              //             );
+              //             break;
+              //           case ViewState.loaded:
+              //             return ScrollableMovie(
+              //               homeCategory: homeCategories.upcomingMovies,
+              //               moviesList: _homeModel.movies[1],
+              //             );
+              //             break;
+              //           case ViewState.error:
+              //             return Center(
+              //                 child: CircularProgressIndicator(
+              //               strokeWidth: 1.0,
+              //               backgroundColor: context
+              //                   .watch<ThemeViewModel>()
+              //                   .curTheme
+              //                   .primary,
+              //             ));
+              //             break;
+              //         }
+              //         return ScrollableMovie(
+              //           homeCategory: homeCategories.trendingMovies,
+              //           isLoading: true,
+              //         );
+              //       })
+              //     ],
+              //   ),
+              // ),
 
-              // airing today tv shows
-              Container(
-                height: 230,
-                child: Column(
-                  children: [
-                    CategoryName(
-                      homeCategory: homeCategories.airingTodayTvShows,
-                    ),
-                    Builder(builder: (context) {
-                      final _homeModel = Provider.of<HomeViewModel>(context);
+              // // airing today tv shows
+              // Container(
+              //   height: 230,
+              //   child: Column(
+              //     children: [
+              //       CategoryName(
+              //         homeCategory: homeCategories.airingTodayTvShows,
+              //       ),
+              //       Builder(builder: (context) {
+              //         final _homeModel = Provider.of<HomeViewModel>(context);
 
-                      switch (_homeModel.tvShowState) {
-                        case ViewState.initial:
-                          // TODO: Handle this case.
-                          break;
-                        case ViewState.loading:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.airingTodayTvShows,
-                            isLoading: true,
-                          );
+              //         switch (_homeModel.tvShowState) {
+              //           case ViewState.initial:
+              //             // TODO: Handle this case.
+              //             break;
+              //           case ViewState.loading:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.airingTodayTvShows,
+              //               isLoading: true,
+              //             );
 
-                          break;
-                        case ViewState.loaded:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.airingTodayTvShows,
-                            tvShowsList: _homeModel.tvShows[1],
-                          );
-                          break;
-                        case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
-                          break;
-                      }
-                      return ScrollableTvShow(
-                        homeCategory: homeCategories.airingTodayTvShows,
-                        isLoading: true,
-                      );
-                    })
-                  ],
-                ),
-              ),
+              //             break;
+              //           case ViewState.loaded:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.airingTodayTvShows,
+              //               tvShowsList: _homeModel.tvShows[1],
+              //             );
+              //             break;
+              //           case ViewState.error:
+              //             return Center(
+              //                 child: CircularProgressIndicator(
+              //               strokeWidth: 1.0,
+              //               backgroundColor: context
+              //                   .watch<ThemeViewModel>()
+              //                   .curTheme
+              //                   .primary,
+              //             ));
+              //             break;
+              //         }
+              //         return ScrollableTvShow(
+              //           homeCategory: homeCategories.airingTodayTvShows,
+              //           isLoading: true,
+              //         );
+              //       })
+              //     ],
+              //   ),
+              // ),
 
-              // netflix tv shows
-              Container(
-                height: 230,
-                child: Column(
-                  children: [
-                    CategoryName(
-                      homeCategory: homeCategories.netflixTvSHows,
-                    ),
-                    Builder(builder: (context) {
-                      final _homeModel = Provider.of<HomeViewModel>(context);
+              // // netflix tv shows
+              // Container(
+              //   height: 230,
+              //   child: Column(
+              //     children: [
+              //       CategoryName(
+              //         homeCategory: homeCategories.netflixTvSHows,
+              //       ),
+              //       Builder(builder: (context) {
+              //         final _homeModel = Provider.of<HomeViewModel>(context);
 
-                      switch (_homeModel.tvShowState) {
-                        case ViewState.initial:
-                          // TODO: Handle this case.
-                          break;
-                        case ViewState.loading:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.netflixTvSHows,
-                            isLoading: true,
-                          );
+              //         switch (_homeModel.tvShowState) {
+              //           case ViewState.initial:
+              //             // TODO: Handle this case.
+              //             break;
+              //           case ViewState.loading:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.netflixTvSHows,
+              //               isLoading: true,
+              //             );
 
-                          break;
-                        case ViewState.loaded:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.netflixTvSHows,
-                            tvShowsList: _homeModel.tvShows[2],
-                          );
-                          break;
-                        case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
-                          break;
-                      }
-                      return ScrollableTvShow(
-                        homeCategory: homeCategories.netflixTvSHows,
-                        isLoading: true,
-                      );
-                    })
-                  ],
-                ),
-              ),
+              //             break;
+              //           case ViewState.loaded:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.netflixTvSHows,
+              //               tvShowsList: _homeModel.tvShows[2],
+              //             );
+              //             break;
+              //           case ViewState.error:
+              //             return Center(
+              //                 child: CircularProgressIndicator(
+              //               strokeWidth: 1.0,
+              //               backgroundColor: context
+              //                   .watch<ThemeViewModel>()
+              //                   .curTheme
+              //                   .primary,
+              //             ));
+              //             break;
+              //         }
+              //         return ScrollableTvShow(
+              //           homeCategory: homeCategories.netflixTvSHows,
+              //           isLoading: true,
+              //         );
+              //       })
+              //     ],
+              //   ),
+              // ),
 
-              // amazon tv shows
-              Container(
-                height: 230,
-                child: Column(
-                  children: [
-                    CategoryName(
-                      homeCategory: homeCategories.amazonTvSHows,
-                    ),
-                    Builder(builder: (context) {
-                      final _homeModel = Provider.of<HomeViewModel>(context);
+              // // amazon tv shows
+              // Container(
+              //   height: 230,
+              //   child: Column(
+              //     children: [
+              //       CategoryName(
+              //         homeCategory: homeCategories.amazonTvSHows,
+              //       ),
+              //       Builder(builder: (context) {
+              //         final _homeModel = Provider.of<HomeViewModel>(context);
 
-                      switch (_homeModel.tvShowState) {
-                        case ViewState.initial:
-                          // TODO: Handle this case.
-                          break;
-                        case ViewState.loading:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.amazonTvSHows,
-                            isLoading: true,
-                          );
+              //         switch (_homeModel.tvShowState) {
+              //           case ViewState.initial:
+              //             // TODO: Handle this case.
+              //             break;
+              //           case ViewState.loading:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.amazonTvSHows,
+              //               isLoading: true,
+              //             );
 
-                          break;
-                        case ViewState.loaded:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.amazonTvSHows,
-                            tvShowsList: _homeModel.tvShows[3],
-                          );
-                          break;
-                        case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
-                          break;
-                      }
-                      return ScrollableTvShow(
-                        homeCategory: homeCategories.amazonTvSHows,
-                        isLoading: true,
-                      );
-                    })
-                  ],
-                ),
-              ),
+              //             break;
+              //           case ViewState.loaded:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.amazonTvSHows,
+              //               tvShowsList: _homeModel.tvShows[3],
+              //             );
+              //             break;
+              //           case ViewState.error:
+              //             return Center(
+              //                 child: CircularProgressIndicator(
+              //               strokeWidth: 1.0,
+              //               backgroundColor: context
+              //                   .watch<ThemeViewModel>()
+              //                   .curTheme
+              //                   .primary,
+              //             ));
+              //             break;
+              //         }
+              //         return ScrollableTvShow(
+              //           homeCategory: homeCategories.amazonTvSHows,
+              //           isLoading: true,
+              //         );
+              //       })
+              //     ],
+              //   ),
+              // ),
 
-              // disney tv shows
-              Container(
-                height: 230,
-                child: Column(
-                  children: [
-                    CategoryName(
-                      homeCategory: homeCategories.disneyTvSHows,
-                    ),
-                    Builder(builder: (context) {
-                      final _homeModel = Provider.of<HomeViewModel>(context);
+              // // disney tv shows
+              // Container(
+              //   height: 230,
+              //   child: Column(
+              //     children: [
+              //       CategoryName(
+              //         homeCategory: homeCategories.disneyTvSHows,
+              //       ),
+              //       Builder(builder: (context) {
+              //         final _homeModel = Provider.of<HomeViewModel>(context);
 
-                      switch (_homeModel.tvShowState) {
-                        case ViewState.initial:
-                          // TODO: Handle this case.
-                          break;
-                        case ViewState.loading:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.disneyTvSHows,
-                            isLoading: true,
-                          );
+              //         switch (_homeModel.tvShowState) {
+              //           case ViewState.initial:
+              //             // TODO: Handle this case.
+              //             break;
+              //           case ViewState.loading:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.disneyTvSHows,
+              //               isLoading: true,
+              //             );
 
-                          break;
-                        case ViewState.loaded:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.disneyTvSHows,
-                            tvShowsList: _homeModel.tvShows[4],
-                          );
-                          break;
-                        case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
-                          break;
-                      }
-                      return ScrollableTvShow(
-                        homeCategory: homeCategories.disneyTvSHows,
-                        isLoading: true,
-                      );
-                    })
-                  ],
-                ),
-              ),
+              //             break;
+              //           case ViewState.loaded:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.disneyTvSHows,
+              //               tvShowsList: _homeModel.tvShows[4],
+              //             );
+              //             break;
+              //           case ViewState.error:
+              //             return Center(
+              //                 child: CircularProgressIndicator(
+              //               strokeWidth: 1.0,
+              //               backgroundColor: context
+              //                   .watch<ThemeViewModel>()
+              //                   .curTheme
+              //                   .primary,
+              //             ));
+              //             break;
+              //         }
+              //         return ScrollableTvShow(
+              //           homeCategory: homeCategories.disneyTvSHows,
+              //           isLoading: true,
+              //         );
+              //       })
+              //     ],
+              //   ),
+              // ),
 
-              // apple tv shows
-              Container(
-                height: 230,
-                child: Column(
-                  children: [
-                    CategoryName(
-                      homeCategory: homeCategories.appleTvSHows,
-                    ),
-                    Builder(builder: (context) {
-                      final _homeModel = Provider.of<HomeViewModel>(context);
+              // // apple tv shows
+              // Container(
+              //   height: 230,
+              //   child: Column(
+              //     children: [
+              //       CategoryName(
+              //         homeCategory: homeCategories.appleTvSHows,
+              //       ),
+              //       Builder(builder: (context) {
+              //         final _homeModel = Provider.of<HomeViewModel>(context);
 
-                      switch (_homeModel.tvShowState) {
-                        case ViewState.initial:
-                          // TODO: Handle this case.
-                          break;
-                        case ViewState.loading:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.appleTvSHows,
-                            isLoading: true,
-                          );
+              //         switch (_homeModel.tvShowState) {
+              //           case ViewState.initial:
+              //             // TODO: Handle this case.
+              //             break;
+              //           case ViewState.loading:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.appleTvSHows,
+              //               isLoading: true,
+              //             );
 
-                          break;
-                        case ViewState.loaded:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.appleTvSHows,
-                            tvShowsList: _homeModel.tvShows[5],
-                          );
-                          break;
-                        case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
-                          break;
-                      }
-                      return ScrollableTvShow(
-                        homeCategory: homeCategories.appleTvSHows,
-                        isLoading: true,
-                      );
-                    })
-                  ],
-                ),
-              ),
+              //             break;
+              //           case ViewState.loaded:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.appleTvSHows,
+              //               tvShowsList: _homeModel.tvShows[5],
+              //             );
+              //             break;
+              //           case ViewState.error:
+              //             return Center(
+              //                 child: CircularProgressIndicator(
+              //               strokeWidth: 1.0,
+              //               backgroundColor: context
+              //                   .watch<ThemeViewModel>()
+              //                   .curTheme
+              //                   .primary,
+              //             ));
+              //             break;
+              //         }
+              //         return ScrollableTvShow(
+              //           homeCategory: homeCategories.appleTvSHows,
+              //           isLoading: true,
+              //         );
+              //       })
+              //     ],
+              //   ),
+              // ),
 
-              // hbo tv shows
-              Container(
-                height: 230,
-                child: Column(
-                  children: [
-                    CategoryName(
-                      homeCategory: homeCategories.hboTvShows,
-                    ),
-                    Builder(builder: (context) {
-                      final _homeModel = Provider.of<HomeViewModel>(context);
+              // // hbo tv shows
+              // Container(
+              //   height: 230,
+              //   child: Column(
+              //     children: [
+              //       CategoryName(
+              //         homeCategory: homeCategories.hboTvShows,
+              //       ),
+              //       Builder(builder: (context) {
+              //         final _homeModel = Provider.of<HomeViewModel>(context);
 
-                      switch (_homeModel.tvShowState) {
-                        case ViewState.initial:
-                          // TODO: Handle this case.
-                          break;
-                        case ViewState.loading:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.hboTvShows,
-                            isLoading: true,
-                          );
+              //         switch (_homeModel.tvShowState) {
+              //           case ViewState.initial:
+              //             // TODO: Handle this case.
+              //             break;
+              //           case ViewState.loading:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.hboTvShows,
+              //               isLoading: true,
+              //             );
 
-                          break;
-                        case ViewState.loaded:
-                          return ScrollableTvShow(
-                            homeCategory: homeCategories.hboTvShows,
-                            tvShowsList: _homeModel.tvShows[6],
-                          );
-                          break;
-                        case ViewState.error:
-                          return Center(
-                              child: CircularProgressIndicator(
-                            strokeWidth: 1.0,
-                            backgroundColor: context
-                                .watch<ThemeViewModel>()
-                                .curTheme
-                                .primary,
-                          ));
-                          break;
-                      }
-                      return ScrollableTvShow(
-                        homeCategory: homeCategories.hboTvShows,
-                        isLoading: true,
-                      );
-                    })
-                  ],
-                ),
-              ),
+              //             break;
+              //           case ViewState.loaded:
+              //             return ScrollableTvShow(
+              //               homeCategory: homeCategories.hboTvShows,
+              //               tvShowsList: _homeModel.tvShows[6],
+              //             );
+              //             break;
+              //           case ViewState.error:
+              //             return Center(
+              //                 child: CircularProgressIndicator(
+              //               strokeWidth: 1.0,
+              //               backgroundColor: context
+              //                   .watch<ThemeViewModel>()
+              //                   .curTheme
+              //                   .primary,
+              //             ));
+              //             break;
+              //         }
+              //         return ScrollableTvShow(
+              //           homeCategory: homeCategories.hboTvShows,
+              //           isLoading: true,
+              //         );
+              //       })
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
