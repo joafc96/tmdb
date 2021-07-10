@@ -1,16 +1,17 @@
+// Package imports:
 import 'package:logger/logger.dart';
-import '../../services/network/custom_exceptions.dart';
 
+// Project imports:
+import '../../locator.dart';
 import '../../models/tv_shows/tv_shows_list.dart';
 import '../../repositories/tvShows/tv_shows_repo_utils.dart';
+import '../../services/network/custom_exceptions.dart';
 import '../../utils/urls.dart';
-import '../../locator.dart';
 
 class TvShowsRepo {
   final Logger log = locator.get<Logger>();
 
   Future<List<TvShowsList>> get loadTvShowsLists async {
-
     try {
       log.d('${DateTime.now()} tvShow fetch time start');
 
@@ -42,6 +43,8 @@ class TvShowsRepo {
 
       return _tvShowsData;
     } on CustomException {
+      rethrow;
+    } catch (e) {
       rethrow;
     }
   }

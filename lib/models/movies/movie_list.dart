@@ -1,6 +1,9 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
+// Project imports:
 import 'movie_data.dart';
+
 class MoviesList {
   final int pageNumber;
   final int totalPages;

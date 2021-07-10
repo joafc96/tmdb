@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tmdb/models/firebase_user_model/firebase_user_model.dart';
 
 // Project imports:
-import 'package:tmdb/utils/theme_utils.dart';
-import '../../utils/shared_prefs/shared_prefs_keys.dart';
-
+import 'package:tmdb/models/firebase_user_model/firebase_user_model.dart';
+import 'package:tmdb/utils/settings_utils/image_quality_utils.dart';
+import 'package:tmdb/utils/settings_utils/theme_utils.dart';
 import '../../utils/enums.dart';
+import '../../utils/shared_prefs/shared_prefs_keys.dart';
 
 class MemoryManagement {
   static SharedPreferences prefs;
@@ -28,7 +28,7 @@ class MemoryManagement {
   }
 
   static void setDisplayName({@required String displayName}) {
-    prefs.setString(SharedPrefsKeys.displayName, displayName ?? "");
+    prefs.setString(SharedPrefsKeys.displayName, displayName ?? "-");
   }
 
   static String getDisplayName() {
@@ -44,7 +44,7 @@ class MemoryManagement {
   }
 
   static void setPhotoUrl({@required String photoUrl}) {
-    prefs.setString(SharedPrefsKeys.photo_url, photoUrl ?? "");
+    prefs.setString(SharedPrefsKeys.photo_url, photoUrl ?? '-');
   }
 
   static String getPhotoUrl() {
@@ -57,6 +57,16 @@ class MemoryManagement {
 
   static int getCurrentThemeSetting() {
     return prefs.getInt(SharedPrefsKeys.currentTheme);
+  }
+
+  static void setCurrentImageQualitySetting(
+      {@required ImageQualitySetting imageQualitySetting}) {
+    prefs.setInt(
+        SharedPrefsKeys.currentImageQuality, imageQualitySetting.getIndex());
+  }
+
+  static int getCurrentImageQualitySetting() {
+    return prefs.getInt(SharedPrefsKeys.currentImageQuality);
   }
 
   static void setIsAppStartedForFirstTime(
@@ -104,8 +114,13 @@ class MemoryManagement {
   }
 
   static ThemeSetting getCurrentTheme() {
-    return ThemeSetting(themeOptions.values[getCurrentThemeSetting() ?? 5]);
+    return ThemeSetting(themeOptions.values[getCurrentThemeSetting() ?? 5]); // default is plutonium
   }
+
+  static ImageQualitySetting getCurrentImageQuality() {
+    return ImageQualitySetting(
+        imageQualityOptions.values[getCurrentImageQualitySetting() ?? 1]); // default is medium
+  } 
 
   //clear all values from shared preferences
   static void clearMemory() {

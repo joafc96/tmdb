@@ -1,14 +1,18 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import '../../utils/constants.dart';
+
+// Project imports:
+import '../../styles.dart';
 import '../../utils/assets_helper.dart';
+import '../../utils/constants.dart';
 import '../../utils/enums.dart';
 import '../../view_models/login_view_model.dart';
 import '../../view_models/theme_view_model.dart';
-
-import '../../styles.dart';
 
 class EmailTextFormField extends StatelessWidget {
   const EmailTextFormField({Key key}) : super(key: key);
@@ -28,6 +32,7 @@ class EmailTextFormField extends StatelessWidget {
         style:
             AppStyles.textStyleParagraph(context).copyWith(letterSpacing: 0.5),
         textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           filled: true,
           fillColor: context.watch<ThemeViewModel>().curTheme.background,

@@ -1,5 +1,7 @@
-
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Project imports:
 import 'package:tmdb/models/tv_shows/tv_shows_data.dart';
 import 'package:tmdb/models/tv_shows/tv_shows_list.dart';
 import 'package:tmdb/services/network/network_service.dart';

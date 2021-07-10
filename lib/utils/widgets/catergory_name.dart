@@ -1,12 +1,16 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:tmdb/styles.dart';
 import 'package:tmdb/utils/assets_helper.dart';
 import 'package:tmdb/utils/enums.dart';
 import 'package:tmdb/view_models/theme_view_model.dart';
-
 import '../constants.dart';
 
 Map<homeCategories, String> homeCategoryName = {

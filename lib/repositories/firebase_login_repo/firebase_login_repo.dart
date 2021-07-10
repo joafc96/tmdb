@@ -1,15 +1,20 @@
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
+import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
+
+// Project imports:
+import '../../locator.dart';
 import '../../models/firebase_user_model/firebase_user_model.dart';
 import '../../services/network/custom_exceptions.dart';
 import '../../utils/shared_prefs/memory_management.dart';
-
-import '../../locator.dart';
 
 abstract class AuthRepo {
   User getCurrentUser();

@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+
+// Project imports:
 import '../../styles.dart';
 import '../../utils/assets_helper.dart';
 import '../../utils/constants.dart';
@@ -10,6 +15,8 @@ class ProfileListItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final bool hasNavigation;
+  final bool hasDialog;
+  final String dialogSelectedText;
   final VoidCallback onTap;
 
   const ProfileListItem({
@@ -17,6 +24,8 @@ class ProfileListItem extends StatelessWidget {
     this.icon,
     this.text,
     this.hasNavigation = true,
+    this.hasDialog = false,
+    this.dialogSelectedText,
     this.onTap,
   }) : super(key: key);
 
@@ -25,7 +34,7 @@ class ProfileListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: AppConstants.kSpacingUnit * 5.5,
+        height: AppConstants.kSpacingUnit * 5.0,
         margin: EdgeInsets.symmetric(
           horizontal: AppConstants.kSpacingUnit * 4.0,
         ).copyWith(
@@ -35,7 +44,7 @@ class ProfileListItem extends StatelessWidget {
           horizontal: AppConstants.kSpacingUnit * 2.0,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 3.0),
+          borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
           color: Provider.of<ThemeViewModel>(context).curTheme.backgroundLight,
         ),
         child: Row(
@@ -47,7 +56,7 @@ class ProfileListItem extends StatelessWidget {
             SizedBox(width: AppConstants.kSpacingUnit * 2.0),
             Text(
               this.text,
-              style: AppStyles.textStyleParagraphThinPrimary(context),
+              style: AppStyles.textStyleParagraph(context),
             ),
             Spacer(),
             if (this.hasNavigation)
@@ -55,6 +64,11 @@ class ProfileListItem extends StatelessWidget {
                 ImageAssets.chevron_right,
                 color: Provider.of<ThemeViewModel>(context).curTheme.text,
                 height: (AppConstants.kSpacingUnit * 2.5),
+              ),
+            if (this.hasDialog)
+              Text(
+                this.dialogSelectedText,
+                style: AppStyles.textStyleParagraphThinPrimary(context).copyWith(fontSize: 10.0),
               ),
           ],
         ),

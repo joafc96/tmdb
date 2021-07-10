@@ -1,5 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
 import '../models/user_info_model.dart';
 import 'enums.dart';
 import 'tmdb_configs.dart';

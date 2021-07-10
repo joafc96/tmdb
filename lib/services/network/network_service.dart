@@ -1,8 +1,15 @@
+// Dart imports:
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:http/http.dart' as http;
+
+// Project imports:
 import '../../utils/tmdb_configs.dart';
 import 'custom_exceptions.dart';
 

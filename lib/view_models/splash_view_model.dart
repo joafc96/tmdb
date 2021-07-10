@@ -1,8 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import '../models/firebase_user_model/firebase_user_model.dart';
 
 // Project imports:
+import '../models/firebase_user_model/firebase_user_model.dart';
 import '../utils/shared_prefs/memory_management.dart';
 
 class SplashViewModel with ChangeNotifier {

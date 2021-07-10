@@ -1,12 +1,12 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './screens/bottom_navigation/nested_navigation.dart';
 
 // Project imports:
+import './screens/bottom_navigation/nested_navigation.dart';
 import './screens/home/home.dart';
-import './utils/custom_page_transitions.dart';
 import './screens/splash/splash.dart';
+import './utils/custom_page_transitions.dart';
 import 'screens/login/login.dart';
 
 enum transitionType { cupertino, material, fade, scale, slideTop, slideBottom }

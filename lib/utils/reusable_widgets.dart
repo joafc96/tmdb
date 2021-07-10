@@ -1,17 +1,20 @@
 // Flutter imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:logger/logger.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
-import '../utils/assets_helper.dart';
-import '../utils/universal_functions.dart';
-import '../utils/enums.dart';
-import '../view_models/theme_view_model.dart';
 
+// Project imports:
 import '../locator.dart';
 import '../styles.dart';
+import '../utils/assets_helper.dart';
+import '../utils/enums.dart';
+import '../utils/universal_functions.dart';
+import '../view_models/theme_view_model.dart';
 
 Logger log = locator<Logger>();
 

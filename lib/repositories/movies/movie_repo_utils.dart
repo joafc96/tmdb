@@ -1,5 +1,7 @@
-
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Project imports:
 import 'package:tmdb/models/movies/movie_data.dart';
 import 'package:tmdb/models/movies/movie_list.dart';
 import 'package:tmdb/services/network/network_service.dart';

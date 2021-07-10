@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:tmdb/view_models/theme_view_model.dart';
+
+// Package imports:
 import 'package:provider/provider.dart';
+
+// Project imports:
+import 'package:tmdb/view_models/theme_view_model.dart';
 
 class AppStyles {
   // Version info in settings
@@ -193,7 +198,27 @@ class AppStyles {
         fontWeight: FontWeight.w700,
         color: Provider.of<ThemeViewModel>(context).curTheme.success60);
   }
+
+   // Text style for alert dialog header
+  static TextStyle textStyleDialogHeader(BuildContext context) {
+    return TextStyle(
+      fontSize: AppFontSizes._large,
+      fontWeight: FontWeight.w700,
+      color: Provider.of<ThemeViewModel>(context).curTheme.primary,
+    );
+  }
+
+  // Text style for dialog options
+  static TextStyle textStyleDialogOptions(BuildContext context) {
+    return TextStyle(
+      fontSize: AppFontSizes.medium,
+      fontWeight: FontWeight.w400,
+      color: Provider.of<ThemeViewModel>(context).curTheme.text,
+    );
+  }
 }
+
+ 
 
 class AppFontSizes {
   static const _ssSmallest = 10.0;

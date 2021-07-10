@@ -1,16 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// Project imports:
+import '../locator.dart';
 import '../models/firebase_user_model/firebase_user_model.dart';
 import '../repositories/firebase_login_repo/firebase_login_repo.dart';
 import '../services/network/custom_exceptions.dart';
 import '../utils/enums.dart';
 import '../utils/reusable_widgets.dart';
-import '../view_models/login_info_model.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../locator.dart';
 import '../utils/shared_prefs/memory_management.dart';
+import '../view_models/login_info_model.dart';
 import 'base_model.dart';
 
 class LoginViewModel extends BaseModel {
@@ -94,10 +99,12 @@ class LoginViewModel extends BaseModel {
         FirsebaseUserModel _firebaseUser =
             await _fireBaseAuthRepo.getUserDetails(_userCredential.user);
         MemoryManagement.saveUserDetails(_firebaseUser);
-
-        setState(ViewState.loaded);
+        Provider.of<LoginInfoViewModel>(context, listen: false)
+            .signIn(_firebaseUser);
 
         Navigator.pushReplacementNamed(context, '/mainTab');
+
+        setState(ViewState.loaded);
 
         showSnackBar("Logged in successfully 🤩", context);
 
@@ -132,9 +139,9 @@ class LoginViewModel extends BaseModel {
         Provider.of<LoginInfoViewModel>(context, listen: false)
             .signIn(_firebaseUser);
 
-        setState(ViewState.loaded);
-
         Navigator.pushReplacementNamed(context, '/mainTab');
+
+        setState(ViewState.loaded);
 
         showSnackBar("Logged in successfully 🤩", context);
 
@@ -151,9 +158,10 @@ class LoginViewModel extends BaseModel {
                 .signIn(_firebaseUser);
           },
         );
-        setState(ViewState.loaded);
 
         Navigator.pushReplacementNamed(context, '/mainTab');
+
+        setState(ViewState.loaded);
 
         showSnackBar("Registered successfully 🤩", context);
 

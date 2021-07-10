@@ -1,10 +1,12 @@
+// Package imports:
 import 'package:logger/logger.dart';
-import '../../services/network/custom_exceptions.dart';
+
+// Project imports:
+import '../../locator.dart';
 import '../../models/movies/movie_data.dart';
 import '../../models/movies/movie_list.dart';
+import '../../services/network/custom_exceptions.dart';
 import '../../utils/urls.dart';
-
-import '../../locator.dart';
 import 'movie_repo_utils.dart';
 
 class MoviesRepo {

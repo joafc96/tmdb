@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import '../themes.dart';
-import 'enums.dart';
+import '../../themes.dart';
+import '../enums.dart';
 
 /// Represent notification on/off setting
 class ThemeSetting {

@@ -59,5 +59,6 @@ enum homeCategories {
 
 enum themeOptions { natrium, titanium, indium, neptunium, thorium, plutonium }
 
+enum imageQualityOptions{low, medium, high}
 
 enum ViewState {initial, loading, loaded, error }

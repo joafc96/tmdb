@@ -8,5 +8,7 @@ class SharedPrefsKeys {
   static const String photo_url = "photo_url";
   static const String isAppStartedFirstTime = 'app_started_first_time';
   static const String currentTheme = 'curr_theme';
+    static const String currentImageQuality = 'image_quality';
+
 
 }

@@ -1,13 +1,16 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:provider/provider.dart';
+
+// Project imports:
 import '../../screens/account/account.dart';
 import '../../screens/home/home.dart';
 import '../../utils/custom_page_transitions.dart';
-import '../../view_models/bottom_nav_view_model.dart';
-
 import '../../utils/widgets/bottom_nav_component.dart';
-
+import '../../view_models/bottom_nav_view_model.dart';
 
 class NestedNavigation extends StatelessWidget {
 

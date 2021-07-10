@@ -1,17 +1,18 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+
+// Project imports:
 import '../../utils/assets_helper.dart';
 import '../../utils/enums.dart';
 import '../../utils/widgets/catergory_name.dart';
+import '../../view_models/home_view_model.dart';
+import '../../view_models/theme_view_model.dart';
 import 'scrollable_display_movie.dart';
 import 'scrollable_display_tvShow.dart';
-import '../../view_models/bottom_nav_view_model.dart';
-import '../../view_models/home_view_model.dart';
-import '../../view_models/login_info_model.dart';
-import '../../view_models/theme_view_model.dart';
-
 
 Map<MoviesCategories, String> movieCategoryName = {
   MoviesCategories.popular: 'Popular',
@@ -46,11 +47,6 @@ class _HomeState extends State<Home>
     with
         SingleTickerProviderStateMixin<Home>,
         AutomaticKeepAliveClientMixin<Home> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

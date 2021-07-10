@@ -1,3 +1,4 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -75,6 +76,10 @@ class BottomNavigationViewModel extends ChangeNotifier {
 
   void pop() {
     return _navigatorKey.currentState.pop();
+  }
+
+    void popWithValue(val) {
+    return _navigatorKey.currentState.pop(val);
   }
 
   void popInner() {

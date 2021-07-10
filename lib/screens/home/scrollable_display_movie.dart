@@ -1,16 +1,21 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:provider/provider.dart';
+import 'package:tmdb/view_models/image_quality_view_model.dart';
+
+// Project imports:
 import 'package:tmdb/view_models/theme_view_model.dart';
 import '../../models/movies/movie_data.dart';
 import '../../models/movies/movie_list.dart';
-import '../../utils/enums.dart';
-import '../../utils/urls.dart';
-import '../../utils/widgets/poster.dart';
-
 import '../../styles.dart';
 import '../../utils/constants.dart';
+import '../../utils/enums.dart';
 import '../../utils/tmdb_configs.dart';
+import '../../utils/urls.dart';
+import '../../utils/widgets/poster.dart';
 
 class ScrollableMovie extends StatelessWidget {
   final MoviesList moviesList;
@@ -27,9 +32,7 @@ class ScrollableMovie extends StatelessWidget {
   Widget build(BuildContext context) {
     List<MoviesData> movies = !isLoading ? moviesList.movies : [];
 
-    String imageUrl = URLS.imageBaseUrl;
 
-    imageUrl = imageUrl + PosterSizes.w500;
 
     return Container(
       height: AppConstants.kSpacingUnit * 18.0,
@@ -64,7 +67,7 @@ class ScrollableMovie extends StatelessWidget {
                           ),
                             height: AppConstants.kSpacingUnit * 13.0,
                             child: Poster(
-                              imageUrl: imageUrl + movies[index].posterPath,
+                              imageUrl: context.watch<ImageQualityViewModel>().curImageQuality + movies[index].posterPath,
                               heroTag:
                                   '${movies[index].id}${homeCategory}',
                             )),

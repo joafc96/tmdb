@@ -1,9 +1,15 @@
+// Dart imports:
 import 'dart:ui';
 
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+
+// Project imports:
 import '../../view_models/theme_view_model.dart';
 import '../constants.dart';
 

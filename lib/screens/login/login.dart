@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import '../../utils/constants.dart';
-import '../../screens/login/login_local_widgets.dart';
-import '../../utils/assets_helper.dart';
-import '../../utils/enums.dart';
-import '../../view_models/login_view_model.dart';
 
 // Project imports:
-import '../../utils/universal_functions.dart';
 import '../../locator.dart';
+import '../../screens/login/login_local_widgets.dart';
+import '../../utils/assets_helper.dart';
+import '../../utils/constants.dart';
+import '../../utils/enums.dart';
+import '../../utils/universal_functions.dart';
+import '../../view_models/login_view_model.dart';
 import '../../view_models/theme_view_model.dart';
 
 class Login extends StatefulWidget {

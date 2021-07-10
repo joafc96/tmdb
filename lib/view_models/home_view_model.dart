@@ -1,5 +1,11 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:logger/logger.dart';
+
+// Project imports:
+import '../locator.dart';
 import '../models/movies/movie_list.dart';
 import '../models/tv_shows/tv_shows_list.dart';
 import '../repositories/movies/movies_repo.dart';
@@ -7,8 +13,6 @@ import '../repositories/tvShows/tv_shows_repo.dart';
 import '../services/network/custom_exceptions.dart';
 import '../utils/enums.dart';
 import '../utils/reusable_widgets.dart';
-
-import '../locator.dart';
 
 class HomeViewModel with ChangeNotifier {
   final Logger log = locator.get<Logger>();

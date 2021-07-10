@@ -1,18 +1,20 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:provider/provider.dart';
+import 'package:tmdb/view_models/image_quality_view_model.dart';
 
-
+// Project imports:
 import '../../models/tv_shows/tv_shows_data.dart';
 import '../../models/tv_shows/tv_shows_list.dart';
-import '../../utils/enums.dart';
-import '../../utils/urls.dart';
-import '../../utils/widgets/poster.dart';
-import '../../view_models/theme_view_model.dart';
-
 import '../../styles.dart';
 import '../../utils/constants.dart';
-import '../../utils/tmdb_configs.dart';
+import '../../utils/enums.dart';
+
+import '../../utils/widgets/poster.dart';
+import '../../view_models/theme_view_model.dart';
 
 class ScrollableTvShow extends StatelessWidget {
   final TvShowsList tvShowsList;
@@ -30,10 +32,6 @@ class ScrollableTvShow extends StatelessWidget {
   Widget build(BuildContext context) {
     List<TvShowsData> tvShows =
         !isLoading ? tvShowsList.tvShows : [];
-
-    String imageUrl = URLS.imageBaseUrl;
-
-    imageUrl = imageUrl + PosterSizes.w500;
 
     return SizedBox(
       height: AppConstants.kSpacingUnit * 18.0,
@@ -67,7 +65,7 @@ class ScrollableTvShow extends StatelessWidget {
                             ),
                             height: AppConstants.kSpacingUnit * 13.0,
                             child: Poster(
-                              imageUrl: imageUrl + tvShows[index].posterPath,
+                              imageUrl: context.watch<ImageQualityViewModel>().curImageQuality + tvShows[index].posterPath,
                               heroTag:
                                   '${tvShows[index].id}${homeCategory}',
                             )),
