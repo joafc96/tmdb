@@ -14,7 +14,7 @@ import '../styles.dart';
 import '../utils/assets_helper.dart';
 import '../utils/enums.dart';
 import '../utils/universal_functions.dart';
-import '../view_models/theme_view_model.dart';
+import '../view_models/setting_view_models/theme_view_model.dart';
 
 Logger log = locator<Logger>();
 

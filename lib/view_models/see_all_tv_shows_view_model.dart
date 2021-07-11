@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:tmdb/models/tv_shows/tv_shows_list.dart';
-import 'package:tmdb/screens/home/home.dart';
 import 'package:tmdb/services/network/custom_exceptions.dart';
 import 'package:tmdb/utils/enums.dart';
 import 'package:tmdb/utils/reusable_widgets.dart';

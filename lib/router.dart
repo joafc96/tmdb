@@ -1,6 +1,7 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tmdb/screens/see_all/see_all_movies.dart';
 import 'package:tmdb/screens/see_all/see_all_tv_shows.dart';
 
 // Project imports:
@@ -13,7 +14,6 @@ import 'screens/login/login.dart';
 enum transitionType { cupertino, material, fade, scale, slideTop, slideBottom }
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
-
   switch (routeSettings.name) {
     case "/":
       return getPageRoute(
@@ -32,8 +32,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           builder: const Home(),
           name: routeSettings.name,
           arguments: routeSettings.arguments,
-          transition: transitionType.fade
-      );
+          transition: transitionType.fade);
       break;
 
     case "/mainTab":
@@ -43,14 +42,21 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           arguments: routeSettings.arguments,
           transition: transitionType.fade);
       break;
-        case "/seeAllTvShows":
-              var args = routeSettings.arguments as Map;
-
+    case "/seeAllTvShows":
+      var args = routeSettings.arguments as Map;
       return getPageRoute(
           builder: SeeAllTvShows.create(args),
           name: routeSettings.name,
           arguments: routeSettings.arguments,
-          transition: transitionType.cupertino);
+          transition: transitionType.material);
+      break;
+    case "/seeAllMovies":
+      var args = routeSettings.arguments as Map;
+      return getPageRoute(
+          builder: SeeAllMovies.create(args),
+          name: routeSettings.name,
+          arguments: routeSettings.arguments,
+          transition: transitionType.material);
       break;
 
     default:

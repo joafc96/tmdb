@@ -10,7 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
-import '../../view_models/theme_view_model.dart';
+import '../../view_models/setting_view_models/theme_view_model.dart';
 import '../constants.dart';
 
 class BottomNavComponent extends StatelessWidget {
@@ -39,7 +39,7 @@ class BottomNavComponent extends StatelessWidget {
           sigmaY: 5.0,
         ),
         child: Container(
-          height: AppConstants.kSpacingUnit * 6.0,
+          height: kSpacingUnit * 6.0,
           decoration: BoxDecoration(
             color: Provider.of<ThemeViewModel>(context, listen: true)
                 .curTheme
@@ -54,11 +54,11 @@ class BottomNavComponent extends StatelessWidget {
                     .primary,
               ),
               const SizedBox(
-                height: AppConstants.kSpacingUnit * 0.8,
+                height: kSpacingUnit * 0.8,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: AppConstants.kSpacingUnit * 2.5),
+                    horizontal: kSpacingUnit * 2.5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -74,8 +74,8 @@ class BottomNavComponent extends StatelessWidget {
                               padding: const EdgeInsets.all(0),
                               child: SvgPicture.asset(
                                 value[0],
-                                width: AppConstants.kSpacingUnit * 3.0,
-                                height: AppConstants.kSpacingUnit * 3.0,
+                                width: kSpacingUnit * 3.0,
+                                height: kSpacingUnit * 3.0,
                                 color: currentIndex == index
                                     ? Provider.of<ThemeViewModel>(context,
                                             listen: true)

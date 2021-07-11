@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
-import 'package:tmdb/view_models/theme_view_model.dart';
+import 'package:tmdb/view_models/setting_view_models/theme_view_model.dart';
 
 class AppStyles {
   // Version info in settings

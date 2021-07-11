@@ -12,8 +12,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
-import 'package:tmdb/utils/settings_utils/image_quality_utils.dart';
-import 'package:tmdb/view_models/image_quality_view_model.dart';
+import './utils/settings_utils/grid_count_utils.dart';
+import './utils/settings_utils/image_quality_utils.dart';
+import './view_models/setting_view_models/grid_count_view_model.dart';
+import './view_models/setting_view_models/image_quality_view_model.dart';
 
 // Project imports:
 import './models/firebase_user_model/firebase_user_model.dart';
@@ -21,7 +23,7 @@ import './styles.dart';
 import 'utils/settings_utils/theme_utils.dart';
 import './view_models/bottom_nav_view_model.dart';
 import './view_models/login_info_model.dart';
-import './view_models/theme_view_model.dart';
+import 'view_models/setting_view_models/theme_view_model.dart';
 import 'locator.dart';
 import 'router.dart';
 import 'utils/shared_prefs/memory_management.dart';
@@ -58,9 +60,13 @@ void main() async {
   // gets current theme setting
   final ThemeSetting _themeSetting = MemoryManagement.getCurrentTheme();
 
-// gets current image quality
+// gets current image quality setting
   final ImageQualitySetting _imageQualitySetting =
       MemoryManagement.getCurrentImageQuality();
+
+      // gets current grid count setting
+  final GridCountSetting _gridCountSetting =
+      MemoryManagement.getCurrentGridCount();
 
   runApp(
     ChangeNotifierProvider<ThemeViewModel>(
@@ -68,6 +74,7 @@ void main() async {
       child: App(
         userInfo: _userInfo,
         imageQualitySetting: _imageQualitySetting,
+        gridCountSetting: _gridCountSetting,
       ),
     ),
   );
@@ -76,8 +83,9 @@ void main() async {
 class App extends StatelessWidget {
   final FirsebaseUserModel userInfo;
   final ImageQualitySetting imageQualitySetting;
+  final GridCountSetting gridCountSetting;
 
-  const App({Key key, this.userInfo, this.imageQualitySetting})
+  const App({Key key, this.userInfo, this.imageQualitySetting, this.gridCountSetting})
       : super(key: key);
 
   @override
@@ -91,7 +99,11 @@ class App extends StatelessWidget {
           create: (_) => LoginInfoViewModel(firebaseUser: userInfo),
         ),
         ChangeNotifierProvider<ImageQualityViewModel>(
-          create: (_) => ImageQualityViewModel(imageQualitySetting: imageQualitySetting),
+          create: (_) =>
+              ImageQualityViewModel(imageQualitySetting: imageQualitySetting),
+        ),
+        ChangeNotifierProvider<GridCountViewModel>(
+          create: (_) => GridCountViewModel(gridCountSetting: gridCountSetting),
         ),
         ChangeNotifierProvider<BottomNavigationViewModel>(
             create: (_) => locator<BottomNavigationViewModel>())

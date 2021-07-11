@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:provider/provider.dart';
+import 'package:tmdb/utils/settings_utils/grid_count_utils.dart';
 import 'package:tmdb/utils/settings_utils/image_quality_utils.dart';
-import 'package:tmdb/view_models/image_quality_view_model.dart';
+import 'package:tmdb/view_models/setting_view_models/grid_count_view_model.dart';
+import 'package:tmdb/view_models/setting_view_models/image_quality_view_model.dart';
 
 // Project imports:
 import '../../screens/account/account_local_widgets.dart';
@@ -17,7 +19,7 @@ import '../../utils/shared_prefs/memory_management.dart';
 import '../../utils/settings_utils/theme_utils.dart';
 import '../../view_models/bottom_nav_view_model.dart';
 import '../../view_models/login_info_model.dart';
-import '../../view_models/theme_view_model.dart';
+import '../../view_models/setting_view_models/theme_view_model.dart';
 
 class Account extends StatelessWidget {
   @override
@@ -105,7 +107,48 @@ class Account extends StatelessWidget {
             imageQualitySetting: ImageQualitySetting(selection));
         Provider.of<ImageQualityViewModel>(context, listen: false)
             .setImageQuality(ImageQualitySetting(selection));
-   
+      }
+    }
+
+    List<Widget> _buildGridCountDialogOptions() {
+      List<Widget> ret = [];
+      gridCountOptions.values.forEach((gridCountOptions value) {
+        ret.add(Align(
+          alignment: Alignment.center,
+          child: SimpleDialogOption(
+            onPressed: () {
+              context.read<BottomNavigationViewModel>().popWithValue(value);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: Text(
+                GridCountSetting(value).getDisplayName(context),
+                style: AppStyles.textStyleDialogOptions(context),
+              ),
+            ),
+          ),
+        ));
+      });
+      return ret;
+    }
+
+    Future<void> _gridCountDialog() async {
+      gridCountOptions selection = await showDialog<gridCountOptions>(
+          context: context,
+          builder: (BuildContext context) {
+            return SimpleDialog(
+              backgroundColor:
+                  Provider.of<ThemeViewModel>(context).curTheme.backgroundLight,
+              children: _buildGridCountDialogOptions(),
+            );
+          });
+      if (Provider.of<GridCountViewModel>(context, listen: false)
+              .curGridCountSetting !=
+          GridCountSetting(selection)) {
+        MemoryManagement.setCurrentGridCountSetting(
+            gridCountSetting: GridCountSetting(selection));
+        Provider.of<GridCountViewModel>(context, listen: false)
+            .setGridCount(GridCountSetting(selection));
       }
     }
 
@@ -116,27 +159,26 @@ class Account extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: AppConstants.kSpacingUnit * 6.0,
-                width: AppConstants.kSpacingUnit * 6.0,
-                margin: EdgeInsets.only(top: AppConstants.kSpacingUnit * 3.0),
+                height: kSpacingUnit * 6.0,
+                width: kSpacingUnit * 6.0,
+                margin: EdgeInsets.only(top: kSpacingUnit * 3.0),
                 child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
+                  borderRadius: BorderRadius.circular(kSpacingUnit * 0.6),
                   child: getCachedNetworkImage(
                       url: _loginInfoViewModel.photoUrl, fit: BoxFit.fill),
                 ),
               ),
-              SizedBox(height: AppConstants.kSpacingUnit * 2.0),
+              SizedBox(height: kSpacingUnit * 2.0),
               Text(
                 _loginInfoViewModel.displayName ?? '-',
                 style: AppStyles.textStyleParagraph(context),
               ),
-              SizedBox(height: AppConstants.kSpacingUnit * 0.5),
+              SizedBox(height: kSpacingUnit * 0.5),
               Text(
                 _loginInfoViewModel.email,
                 style: AppStyles.textStyleParagraphThinPrimary(context),
               ),
-              SizedBox(height: AppConstants.kSpacingUnit * 2.0),
+              SizedBox(height: kSpacingUnit * 2.0),
               // Container(
               //   height: kSpacingUnit * 4.0,
               //   width: kSpacingUnit * 20.0,
@@ -173,7 +215,22 @@ class Account extends StatelessWidget {
                 },
                 hasDialog: true,
                 hasNavigation: false,
-                dialogSelectedText: Provider.of<ImageQualityViewModel>(context).curImageQualitySetting.getDisplayName(context),
+                dialogSelectedText: Provider.of<ImageQualityViewModel>(context)
+                    .curImageQualitySetting
+                    .getDisplayName(context),
+              ),
+
+              ProfileListItem(
+                icon: Icons.grid_view,
+                text: 'Grid Count',
+                onTap: () {
+                  _gridCountDialog();
+                },
+                hasDialog: true,
+                hasNavigation: false,
+                dialogSelectedText: Provider.of<GridCountViewModel>(context)
+                    .curGridCountSetting
+                    .getDisplayName(context),
               ),
 
               ProfileListItem(

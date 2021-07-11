@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:tmdb/locator.dart';
 import 'package:tmdb/utils/assets_helper.dart';
 import 'package:tmdb/view_models/splash_view_model.dart';
-import 'package:tmdb/view_models/theme_view_model.dart';
+import 'package:tmdb/view_models/setting_view_models/theme_view_model.dart';
 
 class Splash extends StatefulWidget {
   static Widget create() {

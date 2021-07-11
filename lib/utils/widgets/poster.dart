@@ -16,7 +16,7 @@ class Poster extends StatelessWidget {
     return Hero(
       tag: heroTag,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
+        borderRadius: BorderRadius.circular(kSpacingUnit * 0.6),
         child: getCachedNetworkImage(url: imageUrl, fit: BoxFit.fill),
       ),
     );

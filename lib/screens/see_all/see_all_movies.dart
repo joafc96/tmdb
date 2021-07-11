@@ -3,61 +3,61 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
-import '../../models/tv_shows/tv_shows_data.dart';
+import '../../view_models/bottom_nav_view_model.dart';
+import '../../view_models/setting_view_models/grid_count_view_model.dart';
+import '../../models/movies/movie_data.dart';
+import '../../models/movies/movie_list.dart';
 import '../../styles.dart';
 import '../../utils/assets_helper.dart';
 import '../../utils/constants.dart';
-import '../../view_models/bottom_nav_view_model.dart';
-import '../../view_models/setting_view_models/grid_count_view_model.dart';
 import '../../view_models/setting_view_models/image_quality_view_model.dart';
-import '../../view_models/see_all_tv_shows_view_model.dart';
+import '../../view_models/see_all_movies_view_model.dart';
 import '../../view_models/setting_view_models/theme_view_model.dart';
-import '../../models/tv_shows/tv_shows_list.dart';
 import '../../utils/enums.dart';
 import '../../utils/scroll_controller_util.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class SeeAllTvShows extends StatefulWidget {
+class SeeAllMovies extends StatefulWidget {
   static Widget create(arguments) {
     return ChangeNotifierProvider(
-      create: (_) => SeeAllTvShowsViewModel(arguments['tv_shows_list']),
-      child: SeeAllTvShows(
-          tvShowsCategory: arguments['tv_show_category'],
-          tvShowsList: arguments['tv_shows_list'],
-          tvShowId: arguments['tv_show_id']),
+      create: (_) => SeeAllMoviesViewModel(arguments['movies_list']),
+      child: SeeAllMovies(
+          moviesCategory: arguments['movie_category'],
+          moviesList: arguments['movies_list'],
+          movieId: arguments['movie_id']),
     );
   }
 
-  final TvShowsCategories tvShowsCategory;
-  final TvShowsList tvShowsList;
-  final int tvShowId;
+  final MoviesCategories moviesCategory;
+  final MoviesList moviesList;
+  final int movieId;
 
-  SeeAllTvShows(
+  SeeAllMovies(
       {Key key,
-      this.tvShowsCategory,
-      @required this.tvShowsList,
-      this.tvShowId})
-      : assert(tvShowsList != null),
+      this.moviesCategory,
+      @required this.moviesList,
+      this.movieId})
+      : assert(moviesList != null),
         super(key: key);
 
   @override
-  _SeeAllTvShowsState createState() => _SeeAllTvShowsState();
+  _SeeAllMoviesState createState() => _SeeAllMoviesState();
 }
 
-class _SeeAllTvShowsState extends State<SeeAllTvShows> {
+class _SeeAllMoviesState extends State<SeeAllMovies> {
   final _scrollControllerUtil = ScrollControllerUtil();
 
   @override
   void initState() {
     super.initState();
     _scrollControllerUtil.addScrollListener(() {
-      if (!(context.read<SeeAllTvShowsViewModel>().state ==
+      if (!(context.read<SeeAllMoviesViewModel>().state ==
           ViewState.loading)) {
-        context.read<SeeAllTvShowsViewModel>().getTvShows(
+        context.read<SeeAllMoviesViewModel>().getMovies(
             context: context,
-            tvShowId: widget.tvShowId,
-            tvShowsCategory: widget.tvShowsCategory);
+            movieId: widget.movieId,
+            moviesCategory: widget.moviesCategory);
       }
     });
   }
@@ -72,6 +72,7 @@ class _SeeAllTvShowsState extends State<SeeAllTvShows> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ScrollAppBar(
+        elevation: 0.0,
         centerTitle: true,
         leading: CupertinoButton(
           padding: EdgeInsets.zero,
@@ -84,45 +85,42 @@ class _SeeAllTvShowsState extends State<SeeAllTvShows> {
           onPressed: () => context.read<BottomNavigationViewModel>().pop(),
         ),
         controller:
-            _scrollControllerUtil.scrollController, // Note the controller here
-        elevation: 0.0,
+            _scrollControllerUtil.scrollController,
         title: Text(
-          tvShowsCategoryName[widget.tvShowsCategory],
+          movieCategoryName[widget.moviesCategory],
           style: AppStyles.headerPrimary(context)
               .copyWith(fontSize: 22, letterSpacing: 0.2),
         ),
       ),
       body: Builder(builder: (context) {
-        final TvShowsList tvShowsList =
-            Provider.of<SeeAllTvShowsViewModel>(context).tvShowsList;
-        final tvShows = tvShowsList.tvShows;
+        final MoviesList moviesList =
+            Provider.of<SeeAllMoviesViewModel>(context).moviesList;
+        final movies = moviesList.movies;
 
-        return OrientationBuilder(builder: (context, orientation) {
           return Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: kSpacingUnit * 0.8, vertical: kSpacingUnit * 0.8),
             child: StaggeredGridView.countBuilder(
-              itemCount: tvShows.length,
+              itemCount: movies.length,
               controller: _scrollControllerUtil.scrollController,
               // primary: false,
               crossAxisCount: Provider.of<GridCountViewModel>(context).curGridCount,
               crossAxisSpacing: kSpacingUnit * 0.8,
               mainAxisSpacing: kSpacingUnit * 0.8,
-              itemBuilder: (context, index) => _Tile(index, tvShows[index]),
+              itemBuilder: (context, index) => _Tile(index, movies[index]),
               staggeredTileBuilder: (index) =>
                   StaggeredTile.count(1, 1.6),
             ),
           );
-        });
       }),
     );
   }
 }
 
 class _Tile extends StatelessWidget {
-  const _Tile(this.index, this.tvShowsData);
+  const _Tile(this.index, this.movieData);
 
-  final TvShowsData tvShowsData;
+  final MoviesData movieData;
   final int index;
 
   @override
@@ -130,14 +128,14 @@ class _Tile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Provider.of<ThemeViewModel>(context).curTheme.backgroundLight,
-          borderRadius: BorderRadius.all(Radius.circular(kSpacingUnit * 0.6))),
+          borderRadius: const BorderRadius.all(Radius.circular(kSpacingUnit * 0.6))),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(kSpacingUnit * 0.6)),
+        borderRadius: const BorderRadius.all(Radius.circular(kSpacingUnit * 0.6)),
         child: FadeInImage.memoryNetwork(
           // fadeInDuration: const Duration(milliseconds: 300),
-          placeholder: kTransparentImage,
+          placeholder:   kTransparentImage,
           image: Provider.of<ImageQualityViewModel>(context).curImageQuality +
-              tvShowsData.posterPath,
+              movieData.posterPath,
           fit: BoxFit.cover,
         ),
       ),

@@ -10,21 +10,10 @@ import 'package:provider/provider.dart';
 import 'package:tmdb/styles.dart';
 import 'package:tmdb/utils/assets_helper.dart';
 import 'package:tmdb/utils/enums.dart';
-import 'package:tmdb/view_models/theme_view_model.dart';
+import 'package:tmdb/view_models/setting_view_models/theme_view_model.dart';
 import '../constants.dart';
 
-Map<homeCategories, String> homeCategoryName = {
-  homeCategories.trendingMovies: "Trending",
-  homeCategories.trendingTvShows: "Trending",
-  homeCategories.nowPlayingMovies: "Now Playing",
-  homeCategories.airingTodayTvShows: "Airing Today",
-  homeCategories.upcomingMovies: "Upcoming",
-  homeCategories.netflixTvSHows: "Netflix",
-  homeCategories.amazonTvSHows: "Amazon",
-  homeCategories.disneyTvSHows: "Disney+",
-  homeCategories.appleTvSHows: "Apple TV+",
-  homeCategories.hboTvShows: "HBO",
-};
+
 
 class CategoryName extends StatelessWidget {
   final homeCategories homeCategory;
@@ -38,27 +27,27 @@ class CategoryName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: AppConstants.kSpacingUnit * 1.2),
+      padding: const EdgeInsets.only(left: kSpacingUnit * 0.8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            width: AppConstants.kSpacingUnit * 0.4,
-            height: AppConstants.kSpacingUnit * 2.0,
+            width: kSpacingUnit * 0.4,
+            height: kSpacingUnit * 2.0,
             decoration: BoxDecoration(
                 borderRadius:
-                    BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
+                    BorderRadius.circular(kSpacingUnit * 0.6),
                 color: Provider.of<ThemeViewModel>(context).curTheme.primary),
           ),
           const SizedBox(
-            width: AppConstants.kSpacingUnit * 0.6,
+            width: kSpacingUnit * 0.6,
           ),
           Text(
             homeCategoryName[homeCategory],
             style: AppStyles.textStyleHeader(context),
           ),
           const SizedBox(
-            width: AppConstants.kSpacingUnit * 0.6,
+            width: kSpacingUnit * 0.6,
           ),
           Text(
             isMovie ? "MOVIES" : "TV SHOWS",
@@ -69,8 +58,8 @@ class CategoryName extends StatelessWidget {
             padding: const EdgeInsets.all(0),
             onPressed: onPressed,
             child: SvgPicture.asset(ImageAssets.chevron_right,
-                width: AppConstants.kSpacingUnit * 3.5,
-                height: AppConstants.kSpacingUnit * 3.5,
+                width: kSpacingUnit * 3.5,
+                height: kSpacingUnit * 3.5,
                 color: Provider.of<ThemeViewModel>(context).curTheme.text),
           )
         ],

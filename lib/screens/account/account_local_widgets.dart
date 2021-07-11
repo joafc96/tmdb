@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../../styles.dart';
 import '../../utils/assets_helper.dart';
 import '../../utils/constants.dart';
-import '../../view_models/theme_view_model.dart';
+import '../../view_models/setting_view_models/theme_view_model.dart';
 
 class ProfileListItem extends StatelessWidget {
   final IconData icon;
@@ -34,26 +34,26 @@ class ProfileListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: AppConstants.kSpacingUnit * 5.0,
+        height: kSpacingUnit * 5.0,
         margin: EdgeInsets.symmetric(
-          horizontal: AppConstants.kSpacingUnit * 4.0,
+          horizontal: kSpacingUnit * 4.0,
         ).copyWith(
-          bottom: AppConstants.kSpacingUnit * 2.0,
+          bottom: kSpacingUnit * 2.0,
         ),
         padding: EdgeInsets.symmetric(
-          horizontal: AppConstants.kSpacingUnit * 2.0,
+          horizontal: kSpacingUnit * 2.0,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppConstants.kSpacingUnit * 0.6),
+          borderRadius: BorderRadius.circular(kSpacingUnit * 0.6),
           color: Provider.of<ThemeViewModel>(context).curTheme.backgroundLight,
         ),
         child: Row(
           children: <Widget>[
             Icon(
               this.icon,
-              size: AppConstants.kSpacingUnit * 2.0,
+              size: kSpacingUnit * 2.0,
             ),
-            SizedBox(width: AppConstants.kSpacingUnit * 2.0),
+            SizedBox(width: kSpacingUnit * 2.0),
             Text(
               this.text,
               style: AppStyles.textStyleParagraph(context),
@@ -63,7 +63,7 @@ class ProfileListItem extends StatelessWidget {
               SvgPicture.asset(
                 ImageAssets.chevron_right,
                 color: Provider.of<ThemeViewModel>(context).curTheme.text,
-                height: (AppConstants.kSpacingUnit * 2.5),
+                height: (kSpacingUnit * 2.5),
               ),
             if (this.hasDialog)
               Text(

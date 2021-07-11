@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
 import 'package:tmdb/models/firebase_user_model/firebase_user_model.dart';
+import 'package:tmdb/utils/settings_utils/grid_count_utils.dart';
 import 'package:tmdb/utils/settings_utils/image_quality_utils.dart';
 import 'package:tmdb/utils/settings_utils/theme_utils.dart';
 import '../../utils/enums.dart';
@@ -69,6 +70,17 @@ class MemoryManagement {
     return prefs.getInt(SharedPrefsKeys.currentImageQuality);
   }
 
+
+    static void setCurrentGridCountSetting(
+      {@required GridCountSetting gridCountSetting}) {
+    prefs.setInt(
+        SharedPrefsKeys.currentGridCount, gridCountSetting.getIndex());
+  }
+
+  static int getCurrentGridCountSetting() {
+    return prefs.getInt(SharedPrefsKeys.currentGridCount);
+  }
+
   static void setIsAppStartedForFirstTime(
       {@required bool isAppStartedFirstTime}) {
     prefs.setBool(SharedPrefsKeys.isAppStartedFirstTime, isAppStartedFirstTime);
@@ -120,6 +132,11 @@ class MemoryManagement {
   static ImageQualitySetting getCurrentImageQuality() {
     return ImageQualitySetting(
         imageQualityOptions.values[getCurrentImageQualitySetting() ?? 1]); // default is medium
+  } 
+
+   static GridCountSetting getCurrentGridCount() {
+    return GridCountSetting(
+        gridCountOptions.values[getCurrentGridCountSetting() ?? 1]); // default is 3
   } 
 
   //clear all values from shared preferences

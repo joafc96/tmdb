@@ -1,3 +1,109 @@
-class AppConstants {
-  static const kSpacingUnit = 10;
-}
+import 'enums.dart';
+
+
+import 'dart:typed_data';
+
+final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
+  0x89,
+  0x50,
+  0x4E,
+  0x47,
+  0x0D,
+  0x0A,
+  0x1A,
+  0x0A,
+  0x00,
+  0x00,
+  0x00,
+  0x0D,
+  0x49,
+  0x48,
+  0x44,
+  0x52,
+  0x00,
+  0x00,
+  0x00,
+  0x01,
+  0x00,
+  0x00,
+  0x00,
+  0x01,
+  0x08,
+  0x06,
+  0x00,
+  0x00,
+  0x00,
+  0x1F,
+  0x15,
+  0xC4,
+  0x89,
+  0x00,
+  0x00,
+  0x00,
+  0x0A,
+  0x49,
+  0x44,
+  0x41,
+  0x54,
+  0x78,
+  0x9C,
+  0x63,
+  0x00,
+  0x01,
+  0x00,
+  0x00,
+  0x05,
+  0x00,
+  0x01,
+  0x0D,
+  0x0A,
+  0x2D,
+  0xB4,
+  0x00,
+  0x00,
+  0x00,
+  0x00,
+  0x49,
+  0x45,
+  0x4E,
+  0x44,
+  0xAE,
+]);
+
+const kSpacingUnit = 10;
+
+Map<homeCategories, String> homeCategoryName = {
+  homeCategories.trendingMovies: "Trending",
+  homeCategories.trendingTvShows: "Trending",
+  homeCategories.nowPlayingMovies: "Now Playing",
+  homeCategories.airingTodayTvShows: "Airing Today",
+  homeCategories.upcomingMovies: "Upcoming",
+  homeCategories.netflixTvSHows: "Netflix",
+  homeCategories.amazonTvSHows: "Amazon",
+  homeCategories.disneyTvSHows: "Disney+",
+  homeCategories.appleTvSHows: "Apple TV+",
+  homeCategories.hboTvShows: "HBO",
+};
+
+Map<MoviesCategories, String> movieCategoryName = {
+  MoviesCategories.popular: 'Popular',
+  MoviesCategories.nowPlaying: 'Now playing',
+  MoviesCategories.trending: 'Trending',
+  MoviesCategories.topRated: 'Top Rated',
+  MoviesCategories.upcoming: 'Upcoming',
+  MoviesCategories.detailsRecommended: 'Recommended',
+  MoviesCategories.detailsSimilar: 'Similar'
+};
+
+Map<TvShowsCategories, String> tvShowsCategoryName = {
+  TvShowsCategories.airingToday: 'Airing Today',
+  TvShowsCategories.trending: 'Trending',
+  TvShowsCategories.topRated: 'Top Rated',
+  TvShowsCategories.popular: 'Popular',
+  TvShowsCategories.detailsRecommended: 'Recommended',
+  TvShowsCategories.netflix: 'Netflix',
+  TvShowsCategories.disney: 'Disney+',
+  TvShowsCategories.appleTv: 'Apple TV+',
+  TvShowsCategories.amazonPrime: 'Amazon',
+  TvShowsCategories.hbo: 'HBO'
+};

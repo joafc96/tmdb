@@ -61,4 +61,6 @@ enum themeOptions { natrium, titanium, indium, neptunium, thorium, plutonium }
 
 enum imageQualityOptions{low, medium, high}
 
+enum gridCountOptions { two, three, four}
+
 enum ViewState {initial, loading, loaded, error }

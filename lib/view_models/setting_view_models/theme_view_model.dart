@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import '../utils/enums.dart';
-import '../themes.dart';
-import '../utils/settings_utils/theme_utils.dart';
+import '../../utils/enums.dart';
+import '../../themes.dart';
+import '../../utils/settings_utils/theme_utils.dart';
 
 class ThemeViewModel with ChangeNotifier {
   ThemeViewModel({ThemeSetting themeSetting}) {

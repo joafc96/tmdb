@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:tmdb/repositories/movies/see_all_movies_repo.dart';
 import 'package:tmdb/view_models/see_all_tv_shows_view_model.dart';
 import './repositories/tvShows/see_all_tv_shows_repo.dart';
 
@@ -29,7 +30,9 @@ void setUpServiceLocator() {
   locator.registerLazySingleton(() => FireBaseAuthRepo());
   locator.registerLazySingleton(() => MoviesRepo());
   locator.registerLazySingleton(() => TvShowsRepo());
-    locator.registerLazySingleton(() => SeeAllTvShowsRepo());
+  locator.registerLazySingleton(() => SeeAllTvShowsRepo());
+  locator.registerLazySingleton(() => SeeAllMoviesrepo());
+
 
   locator.registerLazySingleton(() => BottomNavigationViewModel());
 
