@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:tmdb/models/tv_shows/tv_shows_list.dart';
 import 'package:tmdb/services/network/custom_exceptions.dart';

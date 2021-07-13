@@ -2,7 +2,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:tmdb/repositories/movies/see_all_movies_repo.dart';
-import 'package:tmdb/view_models/see_all_tv_shows_view_model.dart';
 import './repositories/tvShows/see_all_tv_shows_repo.dart';
 
 // Project imports:

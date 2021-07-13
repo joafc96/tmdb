@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:logger/logger.dart';
 import '../models/movies/movie_list.dart';
 import '../repositories/movies/see_all_movies_repo.dart';
@@ -48,7 +49,7 @@ class SeeAllMoviesViewModel extends BaseModel {
         case MoviesCategories.upcoming:
           url = URLS.upComingMovies(pageNumber);
           break;
-      
+
         case MoviesCategories.popular:
           url = URLS.popularMovies(pageNumber);
           break;
@@ -62,24 +63,28 @@ class SeeAllMoviesViewModel extends BaseModel {
           url = URLS.similarMovies(movieId, pageNumber);
           break;
       }
-      loadMoreMovies(context: context, url: url, moviesCategory: moviesCategory);
+      loadMoreMovies(
+          context: context, url: url, moviesCategory: moviesCategory);
     }
   }
 
-  Future loadMoreMovies({BuildContext context, String url, MoviesCategories moviesCategory}) async {
+  Future loadMoreMovies(
+      {BuildContext context,
+      String url,
+      MoviesCategories moviesCategory}) async {
     setState(ViewState.loading);
     try {
       log.d('fetching more movies');
-      setMoviesList =
-          await _seeAllMoviesrepo.loadMoreMovies(_moviesList, url, moviesCategory);
+      setMoviesList = await _seeAllMoviesrepo.loadMoreMovies(
+          _moviesList, url, moviesCategory);
       log.d('fetched more movies');
       setState(ViewState.loaded);
     } on CustomException catch (e) {
       log.e("Error from service ${e.toString()}", e);
       splitAndShowError(context, e.toString());
       setState(ViewState.error);
-    } catch(e) {
-       log.e("Error from service ${e.toString()}", e);
+    } catch (e) {
+      log.e("Error from service ${e.toString()}", e);
       setState(ViewState.error);
     }
   }

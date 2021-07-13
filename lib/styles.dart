@@ -84,6 +84,15 @@ class AppStyles {
     );
   }
 
+   // Text style for header
+  static TextStyle headerText(BuildContext context) {
+    return TextStyle(
+      fontSize: AppFontSizes._large,
+      color: Provider.of<ThemeViewModel>(context).curTheme.text,
+      fontWeight: FontWeight.w700,
+    );
+  }
+
   // Text style for primary header
   static TextStyle headerPrimary(BuildContext context) {
     return TextStyle(

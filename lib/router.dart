@@ -48,7 +48,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           builder: SeeAllTvShows.create(args),
           name: routeSettings.name,
           arguments: routeSettings.arguments,
-          transition: transitionType.material);
+          transition: transitionType.cupertino);
       break;
     case "/seeAllMovies":
       var args = routeSettings.arguments as Map;
@@ -56,7 +56,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           builder: SeeAllMovies.create(args),
           name: routeSettings.name,
           arguments: routeSettings.arguments,
-          transition: transitionType.material);
+          transition: transitionType.cupertino);
       break;
 
     default:
