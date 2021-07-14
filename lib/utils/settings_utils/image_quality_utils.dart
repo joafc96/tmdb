@@ -26,12 +26,12 @@ class ImageQualitySetting {
   String getImageQuality() {
     switch (imageQuality) {
       case imageQualityOptions.low:
-        return imageUrl + PosterSizes.w342;
+        return imageUrl + PosterSizes.w185;
       case imageQualityOptions.high:
-        return imageUrl + PosterSizes.w780;
+        return imageUrl + PosterSizes.w500;
       case imageQualityOptions.medium:
       default:
-        return imageUrl + PosterSizes.w500;
+        return imageUrl + PosterSizes.w342;
     }
   }
 

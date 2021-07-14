@@ -18,6 +18,8 @@ class TvShowsData {
         this.voteCount,
         this.rating});
 
+
+
   factory TvShowsData.fromJson(Map<String, dynamic> json) {
     return TvShowsData(
         id: json['id'] as int,

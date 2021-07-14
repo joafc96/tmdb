@@ -32,7 +32,6 @@ void setUpServiceLocator() {
   locator.registerLazySingleton(() => SeeAllTvShowsRepo());
   locator.registerLazySingleton(() => SeeAllMoviesrepo());
 
-
   locator.registerLazySingleton(() => BottomNavigationViewModel());
 
 

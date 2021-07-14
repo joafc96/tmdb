@@ -27,7 +27,7 @@ class CategoryName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: kSpacingUnit * 0.8),
+      padding: const EdgeInsets.only(left: kSpacingUnit * 1.2),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[

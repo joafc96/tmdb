@@ -9,6 +9,8 @@ class MoviesData {
   final String releaseDate;
   final double rating;
 
+
+
   MoviesData(
       {this.id,
         this.title,
@@ -19,6 +21,7 @@ class MoviesData {
         this.voteAverage,
         this.releaseDate,
         this.rating});
+
 
   factory MoviesData.fromJson(Map<String,dynamic> json){
     return MoviesData(

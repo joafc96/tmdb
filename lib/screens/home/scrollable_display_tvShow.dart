@@ -43,10 +43,10 @@ class ScrollableTvShow extends StatelessWidget {
                 ? tvShows.length
                 : 20
             : 5,
-        padding: const EdgeInsets.only(left: kSpacingUnit * 0.8, right: kSpacingUnit * 0.8),
+        padding: const EdgeInsets.only(left: kSpacingUnit * 1.2, right: kSpacingUnit * 1.2),
         separatorBuilder: (BuildContext context, int index) {
           return const SizedBox(
-            width: kSpacingUnit * 0.8,
+            width: kSpacingUnit * 1.2,
           );
         },
         itemBuilder: (BuildContext context, int index) {

@@ -1,12 +1,15 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:tmdb/utils/reusable_widgets.dart';
+import 'package:tmdb/utils/tmdb_configs.dart';
+import 'package:tmdb/utils/urls.dart';
+import 'package:tmdb/view_models/setting_view_models/image_quality_view_model.dart';
 import '../../view_models/bottom_nav_view_model.dart';
 import '../../view_models/setting_view_models/grid_count_view_model.dart';
 import '../../models/movies/movie_data.dart';
@@ -14,7 +17,6 @@ import '../../models/movies/movie_list.dart';
 import '../../styles.dart';
 import '../../utils/assets_helper.dart';
 import '../../utils/constants.dart';
-import '../../view_models/setting_view_models/image_quality_view_model.dart';
 import '../../view_models/see_all_movies_view_model.dart';
 import '../../view_models/setting_view_models/theme_view_model.dart';
 import '../../utils/enums.dart';
@@ -66,72 +68,81 @@ class _SeeAllMoviesState extends State<SeeAllMovies> {
     super.dispose();
   }
 
-  Future<bool> _willPopCallback() async {
-    await DefaultCacheManager().emptyCache();
-
-    return true; // return true if the route to be popped
-  }
-
   @override
   Widget build(BuildContext context) {
     final MoviesList moviesList =
         Provider.of<SeeAllMoviesViewModel>(context).moviesList;
     final movies = moviesList.movies;
 
-    return WillPopScope(
-      onWillPop: _willPopCallback,
-      child: Scaffold(
-          appBar: ScrollAppBar(
-            elevation: 0.0,
-            centerTitle: true,
-            leading: CupertinoButton(
-                padding: EdgeInsets.zero,
-                child: SvgPicture.asset(
-                  ImageAssets.chevron_left,
-                  width: kSpacingUnit * 3.5,
-                  height: kSpacingUnit * 3.5,
-                  color: Provider.of<ThemeViewModel>(context).curTheme.text,
-                ),
-                onPressed: () async {
-                  await DefaultCacheManager().emptyCache();
-
-                  context.read<BottomNavigationViewModel>().pop();
-                }),
+    return Scaffold(
+        appBar: ScrollAppBar(
+          elevation: 0.0,
+          centerTitle: true,
+          leading: CupertinoButton(
+              padding: EdgeInsets.zero,
+              child: SvgPicture.asset(
+                ImageAssets.chevron_left,
+                width: kSpacingUnit * 3.5,
+                height: kSpacingUnit * 3.5,
+                color: Provider.of<ThemeViewModel>(context).curTheme.text,
+              ),
+              onPressed: () {
+                context.read<BottomNavigationViewModel>().pop();
+              }),
+          controller: _scrollControllerUtil.scrollController,
+          title: Text(
+            movieCategoryName[widget.moviesCategory],
+            style: AppStyles.headerText(context).copyWith(letterSpacing: 0.2),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: kSpacingUnit * 1.2, vertical: kSpacingUnit * 1.2),
+          child: GridView.builder(
             controller: _scrollControllerUtil.scrollController,
-            title: Text(
-              movieCategoryName[widget.moviesCategory],
-              style: AppStyles.headerText(context).copyWith(letterSpacing: 0.2),
+            cacheExtent: 12,
+            itemCount: movies.length,
+            itemBuilder: (context, index) => _Tile(index, movies[index]),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount:
+                  Provider.of<GridCountViewModel>(context).curGridCount,
+              childAspectRatio: 0.8 / 1.2,
+              crossAxisSpacing: kSpacingUnit * 1.2,
+              mainAxisSpacing: kSpacingUnit * 1.2,
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kSpacingUnit * 0.8, vertical: kSpacingUnit * 0.8),
-            child: GridView.builder(
-              controller: _scrollControllerUtil.scrollController,
-              cacheExtent: 12,
-              itemCount: movies.length,
-              itemBuilder: (context, index) => _Tile(index, movies[index]),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount:
-                    Provider.of<GridCountViewModel>(context).curGridCount,
-                childAspectRatio: 0.9 / 1.3,
-                crossAxisSpacing: kSpacingUnit * 0.8,
-                mainAxisSpacing: kSpacingUnit * 0.8,
-              ),
-            ),
-          )),
-    );
+        ));
   }
 }
 
-class _Tile extends StatelessWidget {
+class _Tile extends StatefulWidget {
   const _Tile(this.index, this.movieData);
 
   final MoviesData movieData;
   final int index;
 
   @override
+  __TileState createState() => __TileState();
+}
+
+class __TileState extends State<_Tile> {
+  String _tilePosterSize;
+
+  @override
+  void dispose() {
+    CachedNetworkImage.evictFromCache(
+        '${URLS.imageBaseUrl}${_tilePosterSize}${widget.movieData.posterPath}');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _tilePosterSize = Provider.of<GridCountViewModel>(context).curGridCount == 4
+        ? PosterSizes.w185
+        : Provider.of<GridCountViewModel>(context).curGridCount == 3
+            ? PosterSizes.w342
+            : PosterSizes.w500;
+
     return RepaintBoundary(
       child: Container(
         decoration: BoxDecoration(
@@ -144,17 +155,12 @@ class _Tile extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             ClipRRect(
-              borderRadius:
-                  const BorderRadius.all(Radius.circular(kSpacingUnit * 0.6)),
-              child: FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: Provider.of<ImageQualityViewModel>(context)
-                        .curImageQuality +
-                    movieData.posterPath,
-                fit: BoxFit.cover,
-              ),
-            ),
-            index == 1 || index == 2 || index == 10
+                borderRadius:
+                    const BorderRadius.all(Radius.circular(kSpacingUnit * 0.6)),
+                child: getCachedNetworkImage(
+                    url:
+                        '${URLS.imageBaseUrl}${_tilePosterSize}${widget.movieData.posterPath}')),
+            widget.index == 1 || widget.index == 2 || widget.index == 10
                 ? Positioned(
                     bottom: -5,
                     right: 8,
@@ -179,7 +185,7 @@ class _Tile extends StatelessWidget {
                     ),
                   )
                 : SizedBox(),
-            index == 1 || index == 2 || index == 10
+            widget.index == 1 || widget.index == 2 || widget.index == 10
                 ? Positioned(
                     bottom: -5,
                     right: 0,

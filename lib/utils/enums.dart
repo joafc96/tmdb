@@ -43,7 +43,6 @@ enum TvShowsCategories {
   hbo
 }
 
-
 enum homeCategories {
   trendingMovies,
   trendingTvShows,
@@ -59,8 +58,8 @@ enum homeCategories {
 
 enum themeOptions { natrium, titanium, indium, neptunium, thorium, plutonium }
 
-enum imageQualityOptions{low, medium, high}
+enum imageQualityOptions { low, medium, high }
 
-enum gridCountOptions { two, three, four}
+enum gridCountOptions { two, three, four }
 
-enum ViewState {initial, loading, loaded, error }
+enum ViewState { initial, loading, loaded, error }

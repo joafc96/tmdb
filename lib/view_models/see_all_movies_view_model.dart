@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:logger/logger.dart';
 import '../models/movies/movie_list.dart';
 import '../repositories/movies/see_all_movies_repo.dart';

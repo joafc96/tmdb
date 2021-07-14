@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:logger/logger.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
+import 'package:tmdb/utils/custom_cache_manager.dart';
 
 // Project imports:
 import '../locator.dart';
@@ -16,7 +17,7 @@ import '../utils/enums.dart';
 import '../utils/universal_functions.dart';
 import '../view_models/setting_view_models/theme_view_model.dart';
 
-Logger log = locator<Logger>();
+final Logger log = locator<Logger>();
 
 // Returns spacer
 Widget getSpacer({double height, double width}) {
@@ -46,24 +47,20 @@ Widget textHelper(
     );
 
 // Returns cached image
-Widget getCachedNetworkImage({@required String url, BoxFit fit}) {
-  return  CachedNetworkImage(
+Widget getCachedNetworkImage({@required String url, BoxFit fit = BoxFit.fill}) {
+  return CachedNetworkImage(
+    cacheManager: CustomCacheManager.instance,
     width: double.infinity,
     height: double.infinity,
     imageUrl: url ?? "",
     matchTextDirection: true,
     fit: fit,
-    // placeholder: (context, String val) {
-    //   return Container(
-    //     color: Provider.of<ThemeViewModel>(context).curTheme.backgroundLight,
-    //   );
-    // },
     errorWidget: (BuildContext context, String error, Object obj) {
       return Center(
-        child:  Image.asset(
+        child: Image.asset(
           ImageAssets.appLogo,
           fit: BoxFit.fill,
-          color: Provider.of<ThemeViewModel>(context).curTheme.backgroundLight,
+          color: Provider.of<ThemeViewModel>(context).curTheme.primary30,
           height: 24.0,
         ),
       );

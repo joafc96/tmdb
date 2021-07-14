@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 import '../../models/movies/movie_list.dart';
 import '../../models/tv_shows/tv_shows_list.dart';
 import '../../screens/home/scrollable_display_movie.dart';
@@ -28,6 +29,14 @@ class _HomeState extends State<Home>
     with
         SingleTickerProviderStateMixin<Home>,
         AutomaticKeepAliveClientMixin<Home> {
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -60,8 +69,10 @@ class _HomeState extends State<Home>
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: ScrollAppBar(
         elevation: 0.0,
+        centerTitle: true,
+        controller: _scrollController,
         title: SizedBox(
           width: 45,
           height: 45,
@@ -70,11 +81,11 @@ class _HomeState extends State<Home>
             color: Provider.of<ThemeViewModel>(context).curTheme.primary,
           ),
         ),
-        centerTitle: true,
       ),
       body: ChangeNotifierProvider(
         create: (_) => HomeViewModel(context: context),
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: [
               // trending movies

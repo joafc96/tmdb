@@ -1,3 +1,5 @@
+import 'package:tmdb/models/movies/movie_data.dart';
+
 import '../../repositories/movies/movies_repo.dart';
 import '../../utils/enums.dart';
 import '../../utils/urls.dart';
@@ -13,7 +15,8 @@ class SeeAllMoviesrepo {
   Future<MoviesList> loadMoreMovies(
       MoviesList previousMovies, url, MoviesCategories movieCategory) async {
     try {
-      MoviesList newMovies = await MovieUtilsRepo.getCategoryMovies(url: url);
+      MoviesList newMovies =
+          await MovieUtilsRepo.getSeeAllCategoryMovies(url: url);
 
       if (movieCategory == MoviesCategories.upcoming) {
         if (newMovies != null) {
@@ -39,10 +42,23 @@ class SeeAllMoviesrepo {
         }
       }
 
+      final totalMovieShowList = [
+        ...previousMovies.movies,
+        ...newMovies.movies
+      ];
+
+      var idSet = <String>{};
+      var distinctMoviesList = <MoviesData>[];
+      for (var d in totalMovieShowList) {
+        if (idSet.add(d.id.toString())) {
+          distinctMoviesList.add(d);
+        }
+      }
+
       return MoviesList(
           pageNumber: newMovies.pageNumber,
           totalPages: newMovies.totalPages,
-          movies: previousMovies.movies + newMovies.movies);
+          movies: distinctMoviesList);
     } catch (error) {
       rethrow;
     }

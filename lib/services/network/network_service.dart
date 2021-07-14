@@ -1,6 +1,5 @@
 // Dart imports:
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 // Flutter imports:
@@ -14,8 +13,8 @@ import '../../utils/tmdb_configs.dart';
 import 'custom_exceptions.dart';
 
 class ApiService {
-  static Future<Map<String, dynamic>> get({@required String uri}) async {
-    Map<String, dynamic> responseJson;
+  static Future<http.Response> get({@required String uri}) async {
+    http.Response responseJson;
     try {
       final Uri url = Uri.parse(uri);
 
@@ -32,12 +31,12 @@ class ApiService {
     return responseJson;
   }
 
-  static Future<Map<String, dynamic>> post(
+  static Future<http.Response> post(
       {@required String uri,
       Map<String, dynamic> body,
       String stringBody,
       Map<String, String> headers}) async {
-    Map<String, dynamic> responseJson;
+    http.Response responseJson;
     try {
       final Uri url = Uri.parse(uri);
 
@@ -64,9 +63,9 @@ class ApiService {
     return responseJson;
   }
 
-  static Future<Map<String, dynamic>> delete(
+  static Future<http.Response> delete(
       {@required String uri, @required Map<String, String> headers}) async {
-    Map<String, dynamic> responseJson;
+    http.Response responseJson;
     try {
       final Uri url = Uri.parse(uri);
 
@@ -82,12 +81,12 @@ class ApiService {
     return responseJson;
   }
 
-  static Map<String, dynamic> _response(http.Response response) {
+  static http.Response _response(http.Response response) {
     switch (response.statusCode) {
       case 200:
       case 201:
-        final Map<String, dynamic> responseJson = json.decode(response.body.toString()) as Map<String, dynamic>;
-        return responseJson;
+      
+        return response;
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:

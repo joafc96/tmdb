@@ -13,8 +13,6 @@ import '../../models/movies/movie_list.dart';
 import '../../styles.dart';
 import '../../utils/constants.dart';
 import '../../utils/enums.dart';
-import '../../utils/tmdb_configs.dart';
-import '../../utils/urls.dart';
 import '../../utils/widgets/poster.dart';
 
 class ScrollableMovie extends StatelessWidget {
@@ -44,10 +42,10 @@ class ScrollableMovie extends StatelessWidget {
                 ? movies.length
                 : 20
             : 5,
-        padding: const EdgeInsets.only(left: kSpacingUnit * 0.8, right: kSpacingUnit * 0.8),
+        padding: const EdgeInsets.only(left: kSpacingUnit * 1.2, right: kSpacingUnit * 1.2),
         separatorBuilder: (BuildContext context, int index) {
           return const SizedBox(
-            width: kSpacingUnit * 0.8,
+            width: kSpacingUnit * 1.2,
           );
         },
         itemBuilder: (BuildContext context, int index) {
