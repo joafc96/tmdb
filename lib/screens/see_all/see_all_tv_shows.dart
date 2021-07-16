@@ -104,7 +104,10 @@ class _SeeAllTvShowsState extends State<SeeAllTvShows> {
             controller: _scrollControllerUtil.scrollController,
             cacheExtent: 12,
             itemCount: tvShows.length,
-            itemBuilder: (context, index) => _Tile(index, tvShows[index]),
+            itemBuilder: (context, index) => _Tile(
+              index: index,
+              tvShowsData: tvShows[index],
+            ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount:
                   Provider.of<GridCountViewModel>(context).curGridCount,
@@ -118,7 +121,7 @@ class _SeeAllTvShowsState extends State<SeeAllTvShows> {
 }
 
 class _Tile extends StatefulWidget {
-  const _Tile(this.index, this.tvShowsData);
+  const _Tile({this.index, this.tvShowsData});
 
   final TvShowsData tvShowsData;
   final int index;
@@ -129,11 +132,26 @@ class _Tile extends StatefulWidget {
 
 class __TileState extends State<_Tile> {
   String _tilePosterSize;
+  List<int> _homeIndex = [0, 1, 2, 3, 4, 5];
+
   @override
   void dispose() {
-    CachedNetworkImage.evictFromCache(
-        '${URLS.imageBaseUrl}${_tilePosterSize}${widget.tvShowsData.posterPath}');
+    if (!checkIfHomeContainsTheSameUrl()) {
+      CachedNetworkImage.evictFromCache(
+          '${URLS.imageBaseUrl}${_tilePosterSize}${widget.tvShowsData.posterPath}');
+    }
+
     super.dispose();
+  }
+
+// condition is used to not remove cached images from home screem
+  bool checkIfHomeContainsTheSameUrl() {
+    if (widget.index != null) {
+      if (_homeIndex.contains(widget.index)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override

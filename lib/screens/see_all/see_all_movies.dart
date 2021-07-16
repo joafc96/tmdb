@@ -127,12 +127,25 @@ class _Tile extends StatefulWidget {
 
 class __TileState extends State<_Tile> {
   String _tilePosterSize;
+  List<int> _homeIndex = Iterable<int>.generate(10).toList();
 
   @override
   void dispose() {
-    CachedNetworkImage.evictFromCache(
-        '${URLS.imageBaseUrl}${_tilePosterSize}${widget.movieData.posterPath}');
+    if (!checkIfHomeContainsTheSameUrl()) {
+      CachedNetworkImage.evictFromCache(
+          '${URLS.imageBaseUrl}${_tilePosterSize}${widget.movieData.posterPath}');
+    }
     super.dispose();
+  }
+
+// condition is used to not remove cached images from home screem
+  bool checkIfHomeContainsTheSameUrl() {
+    if (widget.index != null) {
+      if (_homeIndex.contains(widget.index)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
